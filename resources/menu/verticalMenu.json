@@ -1,0 +1,87 @@
+{
+  "menu": [
+    {
+      "route": "dashboard",
+      "name": "Dashboard",
+      "icon": "menu-icon tf-icons ri-home-smile-line",
+      "slug": "dashboard"
+    },
+    {
+      "route": "user.profile",
+      "name": "My Profile",
+      "icon": "menu-icon tf-icons ri-user-line",
+      "slug": "user.profile"
+    },
+    {
+      "name": "Master Data",
+      "icon": "menu-icon tf-icons ri-database-2-line",
+      "slug": "Master",
+      "roles": [
+        "Admin"
+      ],
+      "submenu": [
+        {
+          "route": "user.index",
+          "name": "User Management",
+          "slug": "user.index"
+        },
+        {
+          "route": "seksi.index",
+          "name": "Seksi Management",
+          "slug": "seksi.index"
+        },
+        {
+          "route": "barang.index",
+          "name": "Barang",
+          "slug": "barang.index"
+        }
+      ]
+    },
+    {
+      "menuHeader": "Transaksi"
+    },
+    {
+      "route": "transaksi.create",
+      "name": "Tambah Bon Barang",
+      "icon": "menu-icon tf-icons ri-add-line",
+      "slug": "transaksi.create",
+      "roles": [
+        "Petugas",
+        "User"
+      ]
+    },
+    {
+      "route": "perekaman.index",
+      "name": "Rekam Barang Masuk",
+      "icon": "menu-icon tf-icons ri-box-2-line",
+      "slug": "perekaman.index",
+      "roles": [
+        "Admin"
+      ]
+    },
+    {
+      "route": "transaksi.index",
+      "name": "History",
+      "icon": "menu-icon tf-icons ri-bill-line",
+      "slug": "transaksi.index"
+    },
+    {
+      "route": "opname.index",
+      "name": "Mutasi Barang",
+      "icon": "menu-icon tf-icons ri-box-3-line",
+      "slug": "opname.index",
+      "roles": [
+        "Admin"
+      ]
+    },
+    {
+      "route": "laporan-bulanan.index",
+      "name": "Laporan",
+      "icon": "menu-icon tf-icons ri-bill-line",
+      "slug": "laporan-bulanan.index",
+      "roles": [
+        "Admin"
+      ]
+    }
+  ]
+}
