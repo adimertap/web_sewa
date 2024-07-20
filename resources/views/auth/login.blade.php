@@ -11,6 +11,7 @@ $customizerHidden = 'customizer-hide';
 @section('vendor-style')
 <!-- Vendor -->
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/@form-validation/umd/styles/index.min.css')}}" />
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.css')}}" />
 @endsection
 
 @section('page-style')
@@ -22,13 +23,18 @@ $customizerHidden = 'customizer-hide';
 <script src="{{asset('assets/vendor/libs/@form-validation/umd/bundle/popular.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/@form-validation/umd/plugin-bootstrap5/index.min.js')}}"></script>
 <script src="{{asset('assets/vendor/libs/@form-validation/umd/plugin-auto-focus/index.min.js')}}"></script>
+<script src="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
+
 @endsection
 
 @section('page-script')
 <script src="{{asset('assets/js/pages-auth.js')}}"></script>
+<script src="{{asset('assets/js/extended-ui-sweetalert2.js')}}"></script>
 @endsection
 
 @section('content')
+@include('sweetalert::alert')
+
 <div class="position-relative">
   <div class="authentication-wrapper authentication-basic container-p-y">
     <div class="authentication-inner">
@@ -92,4 +98,16 @@ $customizerHidden = 'customizer-hide';
     </div>
   </div>
 </div>
+
+<script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script>
+  @if ($errors->any())
+    Swal.fire({
+      title: 'Login Failed',
+      text: '{{ $errors->first('email') }}',
+      icon: 'error'
+    });
+  @endif
+</script>
 @endsection
