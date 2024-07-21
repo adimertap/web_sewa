@@ -9,7 +9,8 @@ $configData = Helper::appClasses();
 
 @section('title', 'Dashboard')
 @section('vendor-style')
-<link rel="stylesheet" href="{{asset('assets/vendor/libs/swiper/swiper.scss')}}" />
+{{--
+<link rel="stylesheet" href="{{asset('assets/vendor/libs/swiper/swiper.scss')}}" /> --}}
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/animate-css/animate.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.css')}}" />
@@ -17,10 +18,10 @@ $configData = Helper::appClasses();
 
 @endsection
 
-@section('page-style')
+{{-- @section('page-style')
 <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/cards-statistics.scss')}}">
 <link rel="stylesheet" href="{{asset('assets/vendor/css/pages/cards-analytics.scss')}}">
-@endsection
+@endsection --}}
 
 @section('vendor-script')
 <script src="{{asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>

@@ -13,33 +13,28 @@
       "slug": "user.profile"
     },
     {
-      "menuHeader": "Master Data"
-    },
-    {
-      "route": "user.index",
-      "name": "Master User",
+      "name": "Master Data",
       "icon": "menu-icon tf-icons ri-database-2-line",
-      "slug": "user.index",
+      "slug": "Master",
       "roles": [
         "Admin"
-      ]
-    },
-    {
-      "route": "seksi.index",
-      "name": "Master Seksi",
-      "icon": "menu-icon tf-icons ri-database-2-line",
-      "slug": "seksi.index",
-      "roles": [
-        "Admin"
-      ]
-    },
-    {
-      "route": "barang.index",
-      "name": "Master Barang",
-      "icon": "menu-icon tf-icons ri-database-2-line",
-      "slug": "barang.index",
-      "roles": [
-        "Admin"
+      ],
+      "submenu": [
+        {
+          "route": "user.index",
+          "name": "User Management",
+          "slug": "user.index"
+        },
+        {
+          "route": "seksi.index",
+          "name": "Seksi Management",
+          "slug": "seksi.index"
+        },
+        {
+          "route": "barang.index",
+          "name": "Barang",
+          "slug": "barang.index"
+        }
       ]
     },
     {

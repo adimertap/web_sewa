@@ -31,7 +31,7 @@ $user = Auth::user();
     @if (!isset($menu->roles) || in_array($user->role, $menu->roles))
     {{-- menu headers --}}
     @if (isset($menu->menuHeader))
-    <li class="menu-header mt-3 mb-2">
+    <li class="menu-header mt-3">
       <span class="menu-header-text">{{ __($menu->menuHeader) }}</span>
     </li>
     @else
