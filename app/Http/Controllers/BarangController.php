@@ -187,19 +187,26 @@ class BarangController extends Controller
         $status = "Cukup";
       }
       $item->status = $status;
+      // if ($request->hasFile('barang_photo')) {
+      //   $oldPhoto = $item->barang_photo;
+
+      //   // Delete the old photo from storage
+      //   if ($oldPhoto && Storage::disk('barang')->exists($oldPhoto)) {
+      //     Storage::disk('barang')->delete($oldPhoto);
+      //   }
+
+      //   $newImage = $request->file('barang_photo');
+      //   $newImageName = Str::random(10) . '.' . $newImage->getClientOriginalExtension();
+      //   Storage::disk('barang')->put($newImageName, file_get_contents($newImage));
+      //   $item->barang_photo = $newImageName;
+      //   $item->barang_photo = $newImageName;
+      // }
+
       if ($request->hasFile('barang_photo')) {
-        $oldPhoto = $item->barang_photo;
-
-        // Delete the old photo from storage
-        if ($oldPhoto && Storage::disk('barang')->exists($oldPhoto)) {
-          Storage::disk('barang')->delete($oldPhoto);
-        }
-
         $newImage = $request->file('barang_photo');
-        $newImageName = Str::random(10) . '.' . $newImage->getClientOriginalExtension();
-        Storage::disk('barang')->put($newImageName, file_get_contents($newImage));
-        $item->barang_photo = $newImageName;
-        $item->barang_photo = $newImageName;
+        $imageContent = file_get_contents($newImage->getRealPath());
+        $base64Image = base64_encode($imageContent);
+        $item->barang_photo = $base64Image; // Store base64 string in database
       }
 
       $item->update();
