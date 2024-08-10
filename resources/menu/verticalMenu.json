@@ -13,7 +13,10 @@
       "slug": "user.profile"
     },
     {
-      "menuHeader": "Master Data"
+      "menuHeader": "Master Data",
+      "roles": [
+        "Admin"
+      ]
     },
     {
       "route": "user.index",
