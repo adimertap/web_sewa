@@ -79,9 +79,22 @@ class BarangController extends Controller
       // }
       if ($request->hasFile('barang_photo')) {
         $newImage = $request->file('barang_photo');
-        $imageContent = file_get_contents($newImage->getRealPath());
-        $base64Image = base64_encode($imageContent);
-        $item->barang_photo = $base64Image; // Store base64 string in database
+        $newImageName = Str::random(10) . '.' . $newImage->getClientOriginalExtension();
+
+        try {
+          // Define the path to the public directory where the image should be stored
+          $destinationPath = public_path('images/barang');
+
+          // Move the uploaded file to the specified directory
+          $newImage->move($destinationPath, $newImageName);
+
+          // Store the relative path to the image in the database
+          $item->barang_photo = 'images/barang/' . $newImageName;
+        } catch (\Throwable $th) {
+          DB::rollBack();
+          Alert::warning('Warning', 'Internal Server Error');
+          return redirect()->back();
+        }
       }
 
 
@@ -139,10 +152,15 @@ class BarangController extends Controller
       if (!$item) {
         return 404;
       }
+      // if ($item->barang_photo) {
+      //   // Create a data URL for the base64 image
+      //   $imageData = 'data:image/jpeg;base64,' . $item->barang_photo;
+      //   $item->image_url = $imageData;
+      // } else {
+      //   $item->image_url = null; // No image available
+      // }
       if ($item->barang_photo) {
-        // Create a data URL for the base64 image
-        $imageData = 'data:image/jpeg;base64,' . $item->barang_photo;
-        $item->image_url = $imageData;
+        $item->image_url = asset($item->barang_photo);
       } else {
         $item->image_url = null; // No image available
       }
@@ -204,10 +222,24 @@ class BarangController extends Controller
 
       if ($request->hasFile('barang_photo')) {
         $newImage = $request->file('barang_photo');
-        $imageContent = file_get_contents($newImage->getRealPath());
-        $base64Image = base64_encode($imageContent);
-        $item->barang_photo = $base64Image; // Store base64 string in database
+        $newImageName = Str::random(10) . '.' . $newImage->getClientOriginalExtension();
+
+        try {
+          // Define the path to the public directory where the image should be stored
+          $destinationPath = public_path('images/barang');
+
+          // Move the uploaded file to the specified directory
+          $newImage->move($destinationPath, $newImageName);
+
+          // Store the relative path to the image in the database
+          $item->barang_photo = 'images/barang/' . $newImageName;
+        } catch (\Throwable $th) {
+          DB::rollBack();
+          Alert::warning('Warning', 'Internal Server Error');
+          return redirect()->back();
+        }
       }
+
 
       $item->update();
       DB::commit();

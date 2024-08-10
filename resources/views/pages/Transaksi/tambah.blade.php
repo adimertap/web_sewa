@@ -138,7 +138,7 @@
                   <div class="avatar-wrapper me-3">
                     <div class="avatar rounded-3 bg-label-secondary">
                       <img
-                        src="{{ $item->barang_photo ? 'data:image/jpeg;base64,' . $item->barang_photo : asset('storage/barang/null.png') }}"
+                        src="{{ $item->barang_photo ? asset($item->barang_photo) : asset('storage/barang/null.png') }}"
                         alt="{{ $item->barang_name }}" class="rounded-2">
                     </div>
                   </div>
