@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('laporan-bulanan', LaporanBulanan::class)->parameters(['laporan' => 'id',]);
     Route::get('/laporan-bulanan/{month}/{year}/{seksi}', [LaporanBulanan::class, 'getDetail'])->name('laporan-bulanan.detail');
+    Route::post('/laporan-bulanan/cetak', [LaporanBulanan::class, 'cetak'])->name('laporan-bulanan.cetak');
   });
 
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

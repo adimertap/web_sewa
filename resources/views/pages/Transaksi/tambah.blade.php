@@ -136,9 +136,11 @@
               <td>
                 <div class="d-flex justify-content-start align-items-center product-name">
                   <div class="avatar-wrapper me-3">
-                    <div class="avatar rounded-3 bg-label-secondary"><img
-                        src="{{ asset('storage/barang/' . $item->barang_photo ?? 'null.png') }}" alt="Product-9"
-                        class="rounded-2"></div>
+                    <div class="avatar rounded-3 bg-label-secondary">
+                      <img
+                        src="{{ $item->barang_photo ? 'data:image/jpeg;base64,' . $item->barang_photo : asset('storage/barang/null.png') }}"
+                        alt="{{ $item->barang_name }}" class="rounded-2">
+                    </div>
                   </div>
                   <div class="d-flex flex-column"><span class="text-nowrap text-heading fw-medium">{{
                       $item->barang_name }}</span><small class="text-truncate d-none d-sm-block">Kode Barang: {{
@@ -192,9 +194,16 @@
 
       <!-- Address -->
       <div id="checkout-address" class="content">
+        @if(Auth::user()->role == 'User')
+        <b class="ms-4">Permintaan dari : {{ Auth::user()->Seksi->seksi_name }}</b>
+
+        @else
+        <b class="ms-4">Permintaan dari : <span id="permintaanDari">Pilih Seksi Terlebih Dahulu</span></b>
+
+        @endif
+        <hr>
         <div class="col-12 col-lg-8 mx-auto text-center mb-4">
           <h4>Keranjang Saya! 📦 </h4>
-
           <p>Mohon dicek kembali keranjang Anda sebelum melakukan Checkout, </p>
         </div>
         <div class="table-responsive text-nowrap">
@@ -223,7 +232,7 @@
 </div>
 
 
-<div class="modal fade animate__animated animate__jackInTheBox" id="modalTambah" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-m modal-simple modal-dialog-centered">
     <div class="modal-content">
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -284,14 +293,14 @@
 </template>
 
 <!--/ Checkout Wizard -->
-<div id="bounceIcon" class="bounce-icon hidden">
+{{-- <div id="bounceIcon" class="bounce-icon hidden">
   <svg width="50" height="50" viewBox="0 0 54 54">
     <use xlink:href="{{asset('assets/svg/icons/wizard-checkout-cart.svg#wizardCart')}}"></use>
   </svg>
-</div>
+</div> --}}
 <!-- Add new address modal -->
 @include('_partials/_modals/modal-add-new-address')
-<style>
+{{-- <style>
   @keyframes bounceToCart {
     0% {
       transform: translate(0, 0) scale(1);
@@ -318,7 +327,7 @@
   .hidden {
     display: none;
   }
-</style>
+</style> --}}
 <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -498,6 +507,12 @@
     }
 
     $(document).ready(function () {
+      $('#seksi_id').on('change', function() {
+      var selectedOptionText = $(this).find('option:selected').text();
+      var permintaanDari = selectedOptionText ? selectedOptionText : 'Pilih Seksi Terlebih Dahulu';
+
+      $('#permintaanDari').text(permintaanDari);
+    });
         var template = $('#template_delete_button').html()
         $('#tableConfirm').DataTable({
             "paging": false
@@ -521,47 +536,47 @@
 
 
 
-        function animateIconToCart(startElement) {
-            var $icon = $('#bounceIcon');
-            var $cartStep = $('[data-target="#checkout-address"] .step-trigger');
+        // function animateIconToCart(startElement) {
+        //     var $icon = $('#bounceIcon');
+        //     var $cartStep = $('[data-target="#checkout-address"] .step-trigger');
 
-            // Ensure startElement is defined and log the elements
-            if (!startElement || !startElement.length) {
-                console.error('startElement is not defined or empty');
-                return;
-            }
+        //     // Ensure startElement is defined and log the elements
+        //     if (!startElement || !startElement.length) {
+        //         console.error('startElement is not defined or empty');
+        //         return;
+        //     }
 
-            // Get the start and end positions
-            var startPosition = startElement.offset();
-            var endPosition = $cartStep.offset();
-            var iconSize = $icon.width() / 2;
+        //     // Get the start and end positions
+        //     var startPosition = startElement.offset();
+        //     var endPosition = $cartStep.offset();
+        //     var iconSize = $icon.width() / 2;
 
-            // Calculate translate distances
-            var translateX = endPosition.left - startPosition.left - iconSize;
-            var translateY = endPosition.top - startPosition.top - iconSize;
+        //     // Calculate translate distances
+        //     var translateX = endPosition.left - startPosition.left - iconSize;
+        //     var translateY = endPosition.top - startPosition.top - iconSize;
 
-            // Set custom properties for the animation
-            $icon.css({
-                '--translate-x': `${translateX}px`,
-                '--translate-y': `${translateY}px`,
-                top: startPosition.top + 'px',
-                left: startPosition.left + 'px'
-            });
+        //     // Set custom properties for the animation
+        //     $icon.css({
+        //         '--translate-x': `${translateX}px`,
+        //         '--translate-y': `${translateY}px`,
+        //         top: startPosition.top + 'px',
+        //         left: startPosition.left + 'px'
+        //     });
 
-            // Show the icon and start the animation
-            $icon.removeClass('hidden');
-            $icon.css({
-                animation: 'bounceToCart 1s forwards'
-            });
+        //     // Show the icon and start the animation
+        //     $icon.removeClass('hidden');
+        //     $icon.css({
+        //         animation: 'bounceToCart 1s forwards'
+        //     });
 
-            // Hide the icon after the animation
-            setTimeout(function() {
-                $icon.addClass('hidden');
-                $icon.css({
-                    animation: 'none'
-                });
-            }, 2000);
-         }
+        //     // Hide the icon after the animation
+        //     setTimeout(function() {
+        //         $icon.addClass('hidden');
+        //         $icon.css({
+        //             animation: 'none'
+        //         });
+        //     }, 2000);
+        //  }
 
 
     $('.addButton').click(function() {

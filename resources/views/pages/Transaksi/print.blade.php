@@ -1,4 +1,5 @@
-@extends('layouts/layoutMaster')
+{{-- @extends('layouts/layoutMaster') --}}
+@extends('layouts.blankLayout')
 
 @section('title', 'Cetak Transaksi')
 

@@ -168,7 +168,7 @@
 </div>
 
 <!-- Edit User Modal -->
-<div class="modal fade animate__animated animate__jackInTheBox" id="modalTambah" tabindex="-1" aria-hidden="true">
+<div class="modal fade  " id="modalTambah" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-simple modal-dialog-centered">
     <div class="modal-content">
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -294,7 +294,7 @@
   </div>
 </div>
 
-<div class="modal fade show animate__animated animate__jackInTheBox" id="modalQty" aria-modal="true" role="dialog">
+<div class="modal fade show " id="modalQty" aria-modal="true" role="dialog">
   <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
     <div class="modal-content">
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\DetailTransaksi;
 use App\Models\Seksi;
 use App\Models\Transaksi;
@@ -40,14 +41,17 @@ class LaporanBulanan extends Controller
       ->orderBy('month', 'DESC')
       ->get();
 
+    $barang = Barang::where('active', 'A')->get();
     $seksi = Seksi::get();
-    return view('pages.Laporan.bulanan', compact('tr', 'seksi'));
+    return view('pages.Laporan.bulanan', compact('tr', 'seksi', 'barang'));
   }
 
   public function getDetail($month, $year, $seksi)
   {
     try {
       $monthNumber = Carbon::parse($month)->month;
+
+      DB::enableQueryLog();
 
       $detail = DB::table('det_transaksi')
         ->leftJoin('tr_transaksi', 'det_transaksi.transaksi_id', '=', 'tr_transaksi.transaksi_id')
@@ -56,8 +60,11 @@ class LaporanBulanan extends Controller
         ->whereMonth('tr_transaksi.transaksi_date', $monthNumber)
         ->whereYear('tr_transaksi.transaksi_date', $year)
         ->where('tr_transaksi.seksi_id', $seksi)
-        ->groupBy('mst_barang.barang_code', 'mst_barang.barang_name', 'mst_barang.satuan')
+        ->where('tr_transaksi.jenis_transaksi', 'Keluar')
+        ->groupBy('mst_barang.barang_code', 'mst_barang.barang_name', 'mst_barang.satuan', 'tr_transaksi.jenis_transaksi')
         ->get();
+
+      // dd(DB::getQueryLog());
 
       $detailAll = DB::table('det_transaksi')
         ->leftJoin('tr_transaksi', 'det_transaksi.transaksi_id', '=', 'tr_transaksi.transaksi_id')
@@ -65,12 +72,47 @@ class LaporanBulanan extends Controller
         ->selectRaw('mst_barang.barang_code as barang_code, mst_barang.barang_name as barang_name, det_transaksi.qty as total, mst_barang.satuan as satuan, tr_transaksi.transaksi_date as tanggal, tr_transaksi.transaksi_code as code, tr_transaksi.transaksi_id as transaksi_id')
         ->whereMonth('tr_transaksi.transaksi_date', $monthNumber)
         ->whereYear('tr_transaksi.transaksi_date', $year)
+        ->where('tr_transaksi.jenis_transaksi', 'Keluar')
         ->where('tr_transaksi.seksi_id', $seksi)
         ->get();
 
       $seksiname = Seksi::where('seksi_id', $seksi)->first();
 
       return view('pages.Laporan.detail', compact('detail', 'seksiname', 'month', 'year', 'detailAll'));
+    } catch (\Throwable $th) {
+      return $th;
+    }
+  }
+
+  public function cetak(Request $request)
+  {
+    try {
+      // $monthNumber = Carbon::parse($request->monthFilter)->month;
+
+      $detail = DB::table('det_transaksi')
+        ->leftJoin('tr_transaksi', 'det_transaksi.transaksi_id', '=', 'tr_transaksi.transaksi_id')
+        ->leftJoin('mst_barang', 'det_transaksi.barang_id', '=', 'mst_barang.barang_id')
+        ->leftJoin('mst_seksi', 'tr_transaksi.seksi_id', '=', 'mst_seksi.seksi_id')
+        ->selectRaw('mst_barang.barang_code as code, mst_barang.barang_name as name,
+                    mst_seksi.seksi_name as seksi, mst_seksi.seksi_kode as seksi_kode, tr_transaksi.transaksi_date as date,
+                    SUM(det_transaksi.qty) as total, mst_barang.satuan as satuan')
+        ->when($request->monthFilter, function ($query, $monthFilter) {
+          return $query->whereMonth('tr_transaksi.transaksi_date', $monthFilter);
+        })
+        ->when($request->yearFilter, function ($query, $yearFilter) {
+          return $query->whereYear('tr_transaksi.transaksi_date', $yearFilter);
+        })
+        ->when($request->seksiCetak, function ($query, $seksiCetak) {
+          return $query->where('tr_transaksi.seksi_id', $seksiCetak);
+        })
+        ->when($request->barangCetak, function ($query, $barangCetak) {
+          return $query->where('det_transaksi.barang_id', $barangCetak);
+        })
+        ->where('tr_transaksi.jenis_transaksi', 'Keluar')
+        ->groupBy('mst_barang.barang_code', 'mst_barang.barang_name', 'mst_barang.satuan', 'tr_transaksi.transaksi_date', 'mst_seksi.seksi_name', 'mst_seksi.seksi_kode')
+        ->get();
+
+      return view('pages.Laporan.cetak', compact('detail'));
     } catch (\Throwable $th) {
       return $th;
     }

@@ -175,12 +175,12 @@
   </div>
 </div>
 
-<div class="modal fade show animate__animated animate__jackInTheBox" id="modalCetak" aria-modal="true" role="dialog">
+<div class="modal fade show  " id="modalCetak" aria-modal="true" role="dialog">
   <div class="modal-dialog modal-simple modal-dialog-centered">
     <div class="modal-content" style="padding: 2rem!important">
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       <div class="modal-header">
-        <h5>Cetak Mutasi</h5>
+        <h5>Cetak History</h5>
       </div>
       <div class="modal-body p-0">
         <form action="{{ route('opname.cetak')}}" id="qStokOpname" class="row g-5 mt-3" method="POST" target="_blank"

@@ -56,21 +56,29 @@ class OpnameController extends Controller
   public function cetak(Request $request)
   {
     try {
-      $query = Opname::query();
+      // Subquery to get the last opname record for each barang_id
+      $subQuery = Opname::select('barang_id', \DB::raw('MAX(tanggal) as max_tanggal'))
+        ->groupBy('barang_id');
+
+      // Join the subquery with the main Opname table
+      $query = Opname::joinSub($subQuery, 'last_opname', function ($join) {
+        $join->on('tr_opname.barang_id', '=', 'last_opname.barang_id')
+          ->on('tr_opname.tanggal', '=', 'last_opname.max_tanggal');
+      });
 
       // Filter by barangCetak if provided
       if ($request->has('barangCetak') && !empty($request->barangCetak)) {
-        $query->where('barang_id', $request->barangCetak);
+        $query->where('tr_opname.barang_id', $request->barangCetak);
       }
 
       // Filter by jenis if provided
       if ($request->has('jenis') && !empty($request->jenis)) {
-        $query->where('status', $request->jenis);
+        $query->where('tr_opname.status', $request->jenis);
       }
 
       // Check if start_date and end_date are provided, then apply filtering
       if (!empty($request->start_date) && !empty($request->end_date)) {
-        $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
+        $query->whereBetween('tr_opname.tanggal', [$request->start_date, $request->end_date]);
       }
 
       // Fetch opname data with relationships
@@ -84,6 +92,8 @@ class OpnameController extends Controller
       return redirect()->back();
     }
   }
+
+
 
 
   public function resetOpname()

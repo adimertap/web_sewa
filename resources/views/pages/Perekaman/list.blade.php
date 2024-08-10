@@ -337,7 +337,7 @@
   </div>
 </div>
 
-<div class="modal animate__animated animate__jackInTheBox" id="modalTambah" tabindex="-1" aria-hidden="true">
+<div class="modal  " id="modalTambah" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-simple modal-dialog-centered">
     <div class="modal-content">
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

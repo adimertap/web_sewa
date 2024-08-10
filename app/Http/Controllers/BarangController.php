@@ -65,18 +65,25 @@ class BarangController extends Controller
       }
       $item->status = $status;
       $item->active = $request->active;
+      // if ($request->hasFile('barang_photo')) {
+      //   $newImage = $request->barang_photo;
+      //   $newImageName = Str::random(10) . '.' . $newImage->getClientOriginalExtension();
+      //   try {
+      //     Storage::disk('public')->put($newImageName, file_get_contents($newImage));
+      //   } catch (\Throwable $th) {
+      //     DB::rollBack();
+      //     Alert::warning('Warning', 'Internal Server Error');
+      //     return redirect()->back();
+      //   }
+      //   $item->barang_photo = $newImageName;
+      // }
       if ($request->hasFile('barang_photo')) {
-        $newImage = $request->barang_photo;
-        $newImageName = Str::random(10) . '.' . $newImage->getClientOriginalExtension();
-        try {
-          Storage::disk('barang')->put($newImageName, file_get_contents($newImage));
-        } catch (\Throwable $th) {
-          DB::rollBack();
-          Alert::warning('Warning', 'Internal Server Error');
-          return redirect()->back();
-        }
-        $item->barang_photo = $newImageName;
+        $newImage = $request->file('barang_photo');
+        $imageContent = file_get_contents($newImage->getRealPath());
+        $base64Image = base64_encode($imageContent);
+        $item->barang_photo = $base64Image; // Store base64 string in database
       }
+
 
       $item->save();
       DB::commit();
@@ -86,7 +93,7 @@ class BarangController extends Controller
     } catch (\Throwable $th) {
       return $th;
 
-      // DB::rollBack();
+      DB::rollBack();
       // Alert::warning('Warning', 'Internal Server Error');
       // return redirect()->back();
     }
@@ -132,7 +139,15 @@ class BarangController extends Controller
       if (!$item) {
         return 404;
       }
-      $item->image_url = asset('storage/barang/' . $item->barang_photo); // Generate the URL for the image
+      if ($item->barang_photo) {
+        // Create a data URL for the base64 image
+        $imageData = 'data:image/jpeg;base64,' . $item->barang_photo;
+        $item->image_url = $imageData;
+      } else {
+        $item->image_url = null; // No image available
+      }
+
+      // $item->image_url = asset('storage/' . $item->barang_photo); // Generate the URL for the image
       return response()->json($item);
       // return $item;
     } catch (\Throwable $th) {

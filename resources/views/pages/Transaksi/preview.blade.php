@@ -197,7 +197,7 @@
 
         <hr>
 
-        @if(Auth::user()->role == 'Admin' && $tr->transaksi_status == 'Approved')
+        @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Petugas' && $tr->transaksi_status == 'Approved')
         <form id="selesai-form-{{ $tr->transaksi_id }}" action="{{ route('transaksi.selesai', $tr->transaksi_id) }}"
           method="post" style="display: none">
           @method('PUT')
@@ -205,7 +205,7 @@
         </form>
         @endif
 
-        @if(Auth::user()->role == 'Admin' && $tr->transaksi_status == 'Pending')
+        @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Petugas' && $tr->transaksi_status == 'Pending')
 
         <button class="btn btn-success d-grid w-100 mb-2" type="button"
           onclick="approveFunction({{ $tr->transaksi_id }})">

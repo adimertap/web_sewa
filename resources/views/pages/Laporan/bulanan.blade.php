@@ -143,6 +143,104 @@
     </table>
   </div>
 </div>
+<div class="modal fade show  " id="modalCetak" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-simple modal-dialog-centered">
+    <div class="modal-content" style="padding: 2rem!important">
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-header">
+        <h5>Cetak Laporan</h5>
+      </div>
+      <div class="modal-body p-2">
+        <form action="{{ route('laporan-bulanan.cetak')}}" id="qStokOpname" class="row g-5 mt-3" method="POST"
+          target="_blank" enctype="multipart/form-data">
+          {{ csrf_field() }}
+          <div class="row mt-3">
+            <div class="form-floating form-floating-outline">
+              <select type="text" id="barangCetak" name="barangCetak" class="form-select"
+                value="{{ old('barangCetak') }}">
+                <option value="">Seluruh Barang</option>
+                @foreach ($barang as $item)
+                <option value="{{ $item->barang_id }}">
+                  {{ $item->barang_name }}
+                </option>
+                @endforeach
+              </select>
+              <label>Filter By Barang</label>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="form-floating form-floating-outline">
+              <select type="text" id="seksiCetak" name="seksiCetak" class="form-select" value="{{ old('seksiCetak') }}">
+                <option value="">Seluruh Seksi</option>
+                @foreach ($seksi as $item)
+                <option value="{{ $item->seksi_id }}">
+                  {{ $item->seksi_kode }} - {{ $item->seksi_name }}
+                </option>
+                @endforeach
+              </select>
+              <label>Filter By Seksi</label>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <div class="form-floating form-floating-outline">
+                <select id="monthFilter" name="monthFilter"
+                  class="form-select @error('monthFilter') is-invalid @enderror">
+                  <option value="">Filter By Month</option>
+                  @for ($i = 1; $i <= 12; $i++) <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}" {{
+                    request('monthFilter')==str_pad($i, 2, '0' , STR_PAD_LEFT) ? 'selected' : '' }}>
+                    {{ \Carbon\Carbon::create()->month($i)->format('F') }}
+                    </option>
+                    @endfor
+                </select>
+                <label>Month</label>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-12">
+              <div class="form-floating form-floating-outline">
+                <select id="yearFilter" name="yearFilter" class="form-select @error('yearFilter') is-invalid @enderror">
+                  <option value="">Filter By Year</option>
+                  @for ($year = 2020; $year <= 2030; $year++) <option value="{{ $year }}" {{
+                    request('yearFilter')==$year ? 'selected' : '' }}>
+                    {{ $year }}
+                    </option>
+                    @endfor
+                </select>
+                <label>Year</label>
+              </div>
+            </div>
+          </div>
+          {{-- <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="form-floating form-floating-outline">
+                <input type="date" id="start_date" name="start_date" class="form-control"
+                  value="{{ old('start_date') }}" placeholder="Input Start Date">
+                <label>Start Date</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-floating form-floating-outline">
+                <input type="date" id="end_date" name="end_date" class="form-control" value="{{ old('end_Date') }}"
+                  placeholder="Input End Date">
+                <label>End Date</label>
+              </div>
+            </div>
+          </div> --}}
+          <hr>
+          <div class="row mt-3">
+            <div class="d-flex flex-wrap justify-content-between">
+              <button type="reset" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal"
+                aria-label="Close">Cancel</button>
+              <button type="submit" class="btn btn-primary waves-effect waves-light">Cetak</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
 <script>
   function cetakLaporan() {

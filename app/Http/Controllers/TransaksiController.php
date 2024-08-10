@@ -83,6 +83,7 @@ class TransaksiController extends Controller
     try {
       $seksi = Seksi::get();
       $barang = Barang::where('active', 'A')->where('status', '!=', 'Habis')->get();
+      
       return view('pages.Transaksi.tambah', compact('barang', 'seksi'));
     } catch (\Throwable $th) {
       return $th;
