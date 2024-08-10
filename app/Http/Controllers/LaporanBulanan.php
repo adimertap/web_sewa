@@ -9,6 +9,7 @@ use App\Models\Transaksi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Alert;
 
 class LaporanBulanan extends Controller
 {
@@ -110,11 +111,18 @@ class LaporanBulanan extends Controller
         })
         ->where('tr_transaksi.jenis_transaksi', 'Keluar')
         ->groupBy('mst_barang.barang_code', 'mst_barang.barang_name', 'mst_barang.satuan', 'tr_transaksi.transaksi_date', 'mst_seksi.seksi_name', 'mst_seksi.seksi_kode')
-        ->get();
+        ->get()
+        ->toArray();
+
+      if (!$detail) {
+        Alert::warning('Warning', 'Data tidak ditemukan');
+        return redirect()->back();
+      }
 
       return view('pages.Laporan.cetak', compact('detail'));
     } catch (\Throwable $th) {
-      return $th;
+      Alert::warning('Warning', 'Internal Server Error');
+      return redirect()->back();
     }
   }
 
