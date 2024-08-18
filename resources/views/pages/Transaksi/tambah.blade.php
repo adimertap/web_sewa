@@ -136,7 +136,8 @@
               <td>
                 <div class="d-flex justify-content-start align-items-center product-name">
                   <div class="avatar-wrapper me-3">
-                    <div class="avatar rounded-3 bg-label-secondary">
+                    <div class="avatar rounded-3 bg-label-secondary"
+                      style="width: 4rem!important;height: 4rem!important">
                       <img
                         src="{{ $item->barang_photo ? asset($item->barang_photo) : asset('storage/barang/null.png') }}"
                         alt="{{ $item->barang_name }}" class="rounded-2">
