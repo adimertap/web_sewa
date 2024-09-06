@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanBulanan;
 use App\Http\Controllers\OpnameController;
 use App\Http\Controllers\PerekamanController;
+use App\Http\Controllers\SaranController;
 use App\Http\Controllers\SeksiController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TransaksiController;
@@ -58,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan-bulanan/{month}/{year}/{seksi}', [LaporanBulanan::class, 'getDetail'])->name('laporan-bulanan.detail');
     Route::post('/laporan-bulanan/cetak', [LaporanBulanan::class, 'cetak'])->name('laporan-bulanan.cetak');
   });
+
+  Route::resource('saran', SaranController::class)->parameters(['saran' => 'id',]);
 
   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

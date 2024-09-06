@@ -68,7 +68,6 @@ class TransaksiController extends Controller
 
       $user = User::where('role', 'User')->where('active', 'A')->get();
       $seksi = Seksi::where('status', 'A')->get();
-
       return view('pages.Transaksi.list', compact('seksi', 'tr', 'pendingCount', 'approveCount', 'selesaiCount', 'rejectCount', 'user'));
     } catch (\Throwable $th) {
       return $th;
@@ -83,7 +82,7 @@ class TransaksiController extends Controller
     try {
       $seksi = Seksi::get();
       $barang = Barang::where('active', 'A')->where('status', '!=', 'Habis')->get();
-      
+
       return view('pages.Transaksi.tambah', compact('barang', 'seksi'));
     } catch (\Throwable $th) {
       return $th;

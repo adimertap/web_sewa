@@ -215,7 +215,7 @@
         <tr role="row" class="odd ">
           <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
           @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Petugas')
-          <td class="text-center">{{ $item->User->Seksi->seksi_name ?? '' }}</td>
+          <td class="text-center">{{ $item->Seksi->seksi_name ?? '' }}</td>
           @if(Auth::user()->role == 'Admin')
           <td class="text-center">{{ $item->User->name ?? '' }}</td>
           @endif

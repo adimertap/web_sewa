@@ -90,6 +90,12 @@
       "roles": [
         "Admin"
       ]
+    },
+    {
+      "route": "saran.index",
+      "name": "Saran dan Masukan",
+      "icon": "menu-icon tf-icons ri-home-smile-line",
+      "slug": "saran.index"
     }
   ]
 }

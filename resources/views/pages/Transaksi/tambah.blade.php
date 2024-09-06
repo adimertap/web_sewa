@@ -140,7 +140,7 @@
                       style="width: 4rem!important;height: 4rem!important">
                       <img
                         src="{{ $item->barang_photo ? asset($item->barang_photo) : asset('storage/barang/null.png') }}"
-                        alt="{{ $item->barang_name }}" class="rounded-2">
+                        alt="{{ $item->barang_name }}" class="rounded-2 enlarge-image" style="cursor:pointer;">
                     </div>
                   </div>
                   <div class="d-flex flex-column"><span class="text-nowrap text-heading fw-medium">{{
@@ -229,6 +229,19 @@
         </div>
       </div>
     </form>
+  </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <img id="modalImage" src="" alt="" class="img-fluid">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -471,6 +484,8 @@
                 qty: qty
             });
         });
+
+
         $.ajax({
             url: '{{ route("transaksi.store") }}',
             method: 'POST',
@@ -508,6 +523,16 @@
     }
 
     $(document).ready(function () {
+      $('.enlarge-image').click(function() {
+        // Get the src of the clicked image
+        var imgSrc = $(this).attr('src');
+
+        // Set the modal image src to the clicked image's src
+        $('#modalImage').attr('src', imgSrc);
+
+        // Show the modal
+        $('#imageModal').modal('show');
+    });
       $('#seksi_id').on('change', function() {
       var selectedOptionText = $(this).find('option:selected').text();
       var permintaanDari = selectedOptionText ? selectedOptionText : 'Pilih Seksi Terlebih Dahulu';

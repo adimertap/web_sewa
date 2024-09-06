@@ -205,7 +205,8 @@
         </form>
         @endif
 
-        @if(Auth::user()->role == 'Admin' || Auth::user()->role == 'Petugas' && $tr->transaksi_status == 'Pending')
+        @if(Auth::user()->role == 'Admin' && $tr->transaksi_status == 'Pending' || Auth::user()->role == 'Petugas' &&
+        $tr->transaksi_status == 'Pending')
 
         <button class="btn btn-success d-grid w-100 mb-2" type="button"
           onclick="approveFunction({{ $tr->transaksi_id }})">
