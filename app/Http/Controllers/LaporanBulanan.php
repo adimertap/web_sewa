@@ -89,14 +89,14 @@ class LaporanBulanan extends Controller
   {
     try {
       // $monthNumber = Carbon::parse($request->monthFilter)->month;
-
       $detail = DB::table('det_transaksi')
         ->leftJoin('tr_transaksi', 'det_transaksi.transaksi_id', '=', 'tr_transaksi.transaksi_id')
         ->leftJoin('mst_barang', 'det_transaksi.barang_id', '=', 'mst_barang.barang_id')
         ->leftJoin('mst_seksi', 'tr_transaksi.seksi_id', '=', 'mst_seksi.seksi_id')
         ->selectRaw('mst_barang.barang_code as code, mst_barang.barang_name as name,
-                    mst_seksi.seksi_name as seksi, mst_seksi.seksi_kode as seksi_kode, tr_transaksi.transaksi_date as date,
+                    mst_seksi.seksi_name as seksi, mst_seksi.seksi_kode as seksi_kode,
                     SUM(det_transaksi.qty) as total, mst_barang.satuan as satuan')
+
         ->when($request->monthFilter, function ($query, $monthFilter) {
           return $query->whereMonth('tr_transaksi.transaksi_date', $monthFilter);
         })
@@ -106,21 +106,33 @@ class LaporanBulanan extends Controller
         ->when($request->seksiCetak, function ($query, $seksiCetak) {
           return $query->where('tr_transaksi.seksi_id', $seksiCetak);
         })
-        ->when($request->barangCetak, function ($query, $barangCetak) {
-          return $query->where('det_transaksi.barang_id', $barangCetak);
-        })
         ->where('tr_transaksi.jenis_transaksi', 'Keluar')
-        ->groupBy('mst_barang.barang_code', 'mst_barang.barang_name', 'mst_barang.satuan', 'tr_transaksi.transaksi_date', 'mst_seksi.seksi_name', 'mst_seksi.seksi_kode')
+        ->groupBy('mst_barang.barang_code', 'mst_barang.barang_name', 'mst_barang.satuan', 'mst_seksi.seksi_name', 'mst_seksi.seksi_kode')
+        ->orderBy('mst_seksi.seksi_kode', 'asc') // Add this line to sort by seksi_kode
         ->get()
         ->toArray();
+
+      if ($request->monthFilter) {
+        // Convert month number to month name using Carbon
+        $month = Carbon::createFromFormat('m', $request->monthFilter)->format('F'); // 'F' gives the full month name
+      } else {
+        $month = null;
+      }
+
+      if ($request->yearFilter) {
+        $year = $request->yearFilter;
+      } else {
+        $year = null;
+      }
 
       if (!$detail) {
         Alert::warning('Warning', 'Data tidak ditemukan');
         return redirect()->back();
       }
 
-      return view('pages.Laporan.cetak', compact('detail'));
+      return view('pages.Laporan.cetak', compact('detail', 'month', 'year'));
     } catch (\Throwable $th) {
+      return $th;
       Alert::warning('Warning', 'Internal Server Error');
       return redirect()->back();
     }

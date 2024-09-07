@@ -154,7 +154,7 @@
         <form action="{{ route('laporan-bulanan.cetak')}}" id="qStokOpname" class="row g-5 mt-3" method="POST"
           target="_blank" enctype="multipart/form-data">
           {{ csrf_field() }}
-          <div class="row mt-3">
+          {{-- <div class="row mt-3">
             <div class="form-floating form-floating-outline">
               <select type="text" id="barangCetak" name="barangCetak" class="form-select"
                 value="{{ old('barangCetak') }}">
@@ -167,7 +167,7 @@
               </select>
               <label>Filter By Barang</label>
             </div>
-          </div>
+          </div> --}}
           <div class="row mt-3">
             <div class="form-floating form-floating-outline">
               <select type="text" id="seksiCetak" name="seksiCetak" class="form-select" value="{{ old('seksiCetak') }}">

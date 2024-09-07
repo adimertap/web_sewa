@@ -31,33 +31,43 @@
 
 {{-- <div class="card">
   <div class="card-datatable text-nowrap"> --}}
-    <table class="datatables-ajax table table-bordered small" id="tableData" style="font-size: 12px!important">
+    @if($month == null && $year == null)
+    <p class="mt-3">Seluruh Bulan dan Tahun</p>
+
+    @else
+    <p class="mt-3">Pelaporan Bulan: {{ $month || '' }}, {{ $year || '' }}</p>
+
+    @endif
+    <table class="datatables-ajax table table-bordered small" id="tableData" style="font-size: 10px!important">
       <thead>
         <tr class="text-center">
           <th class="sorting small" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
-            style="width: 20px; font-size: 12px" aria-label="E-mail: activate to sort column ascending">No.</th>
+            style="width: 20px!imporant; font-size: 8px!important">No.
+          </th>
           <th class="sorting small" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
-            style="width: 50px; font-size: 12px" aria-label="E-mail: activate to sort column ascending">Seksi</th>
+            style="width: 140px!imporant; font-size: 8px!important">Seksi
+          </th>
           <th class="sorting small" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
-            style="width: 100px; font-size: 12px" aria-label="City: activate to sort column ascending">Kode</th>
+            style="width: 50px!imporant; font-size: 8px!important">Kode
+          </th>
           <th class="sorting small" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
-            style="width: 100px; font-size: 12px" aria-label="City: activate to sort column ascending">Barang</th>
+            style="width: 70px!imporant; font-size: 8px!important">Barang
+          </th>
           <th class="sorting small" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
-            style="width: 40px; font-size: 12px" aria-label="Salary: activate to sort column ascending">Tanggal</th>
+            style="width: 40px!imporant; font-size: 8px!important">Qty
+          </th>
           <th class="sorting small" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
-            style="width: 40px; font-size: 12px" aria-label="Salary: activate to sort column ascending">Qty</th>
-          <th class="sorting small" tabindex="0" aria-controls="DataTables_Table_1" rowspan="1" colspan="1"
-            style="width: 50px; font-size: 12px" aria-label="Salary: activate to sort column ascending">Satuan</th>
+            style="width: 40px!imporant; font-size: 8px!important">Satuan
+          </th>
         </tr>
       </thead>
       <tbody class="list">
         @foreach ($detail as $item)
-        <tr role="row" class="odd ">
-          <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
+        <tr role="row" class="odd" style="font-size: 8px!important">
+          <th scope="row" class="text-center" style="font-size: 8px!important">{{ $loop->iteration }}.</th>
           <td class="text-center">{{ $item->seksi_kode ?? '' }} - {{ $item->seksi ?? '' }}</td>
           <td class="text-center">{{ $item->code ?? '' }}</td>
           <td class="text-center">{{ $item->name ?? '' }}</td>
-          <td class="text-center">{{ $item->date ? \Carbon\Carbon::parse($item->date)->format('d-m-Y') :'' }}</td>
           <td class="text-center">{{ $item->total ?? 0 }}</td>
           <td class="text-center">{{ $item->satuan ?? 0 }}</td>
         </tr>
