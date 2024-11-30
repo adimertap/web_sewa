@@ -15,13 +15,7 @@ $configData = Helper::appClasses();
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/animate-css/animate.css')}}" />
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.css')}}" />
 <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
-
 @endsection
-
-{{-- @section('page-style')
-<link rel="stylesheet" href="{{asset('assets/vendor/css/pages/cards-statistics.scss')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/css/pages/cards-analytics.scss')}}">
-@endsection --}}
 
 @section('vendor-script')
 <script src="{{asset('assets/vendor/libs/apex-charts/apexcharts.js')}}"></script>
@@ -33,180 +27,294 @@ $configData = Helper::appClasses();
 @section('page-script')
 <script src="{{asset('assets/js/dashboards-analytics.js')}}"></script>
 <script src="{{asset('assets/js/extended-ui-sweetalert2.js')}}"></script>
+<script src="{{asset('assets/js/ui-modals.js')}}"></script>
 @endsection
 
 @section('content')
+@include('sweetalert::alert')
 <div class="card">
   <div class="d-flex align-items-end row">
     <div class="col-md-6 order-2 order-md-1">
       <div class="card-body">
-        <h4 class="card-title mb-4">Welcome, <span class="fw-bold">{{ Auth::user()->name }}!</span> 👋</h4>
-        @if(Auth::user()->role == 'User')
-        <p class="mb-0"><b>Website bon barang, </b>silahkan klik Tambah Bon Barang</p>
-        <p>Anda dapat melakukan bon barang pada website ini.</p>
-        <a href="{{ route('transaksi.create') }}" class="mt-3 btn btn-primary waves-effect waves-light">Tambah
-          Bon
-          Barang</a>
-        @else
-        <p class="mb-0"><b>Website bon barang, </b>silahkan klik Tambah Rekam Barang</p>
-        <p>Anda dapat melakukan perekaman barang pada website ini.</p>
-        @if(Auth::user()->role !== "Admin")
-        {{-- <a href="{{ route('perekaman.create') }}" class="mt-3 btn btn-primary waves-effect waves-light">Rekam
-          Barang</a> --}}
-        @endif
-
-        @endif
-
+        <h4 class="card-title mb-4">Selamat Datang, <span class="fw-bold">{{ Auth::user()->name }}!</span> 👋</h4>
+        <p class="mb-0"><b>Website Pencatatan Sewa, </b>silahkan klik Tambah Sewa</p>
+        <p>Anda dapat melakukan pencatatan pada website ini.</p>
       </div>
     </div>
     <div class="col-md-6 text-center text-md-end order-1 order-md-2">
-      <div class="card-body pb-0 px-0 pt-2">
-        <img src="../../assets/img/illustrations/illustration-john-light.png" height="186" class="scaleX-n1-rtl"
-          alt="View Profile" data-app-light-img="illustrations/illustration-john-light.png"
-          data-app-dark-img="illustrations/illustration-john-dark.png">
+      <div class="card-body ">
+        <button onclick="modalTambah()" class=" btn btn-primary waves-effect waves-light">Tambah
+          Sewa</button>
       </div>
     </div>
   </div>
 </div>
-<div class="row mt-4">
-  <div class="col-sm-6 col-lg-3">
-    <div class="card card-border-shadow-primary h-100">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-2">
-          <div class="avatar me-4">
-            <span class="avatar-initial rounded-3 bg-label-primary"><i class="ri-time-line ri-24px"></i></span>
-          </div>
-          <h4 class="mb-0">{{ $pendingCount }}</h4>
+<div class="card mt-3">
+  <div class="card-header p-0">
+    {{-- <div class="card-datatable">
+      <table class="datatables-ajax table table-bordered text-nowrap small" id="tableData"> --}}
+        <div class="card-datatable text-nowrap">
+          <table class="dt-scrollableTable table table-bordered small" id="tableData">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th class="text-center">Jenis</th>
+                <th class="text-center">Tanggal</th>
+                <th class="text-center">Kab/Kota</th>
+                <th class="text-center">Nama</th>
+                <th class="text-center">Pembayaran</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody class="list">
+              @foreach ($datas as $item)
+              <tr role="row" class="odd ">
+                <td class="text-center">{{ $loop->iteration }}.</td>
+                <td class="text-center">{{ $item->Jenis->jenis_nama }}</td>
+                <td class="text-center">{{ $item->tanggal_perjanjian }}</td>
+                <td class="text-center">{{ $item->kabupaten }}</td>
+                <td class="text-center">{{ $item->nama_pengguna }}</td>
+                <td class="text-center">{{ $item->sistem_pembayaran }}</td>
+                <td class="text-center">
+                  <a href="{{ route('sewa.show', $item->transaksi_id) }}"
+                    class="btn btn-sm  btn-text-primary rounded-pill waves-effect">
+                    <i class="ri-eye-line ri-20px"></i>
+                  </a>
+                  <div class="d-inline-block">
+                    <a href="javascript:;"
+                      class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                      data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end m-0" style="">
+                      <li><a href="{{ route('sewa.edit', $item->transaksi_id) }}" class="dropdown-item">Edit</a></li>
+                      <li><a href="{{ route('sewa.print', $item->transaksi_id) }}" target="_blank"
+                          class="dropdown-item">Cetak</a></li>
+                      <div class="dropdown-divider"></div>
+                      <li>
+                        <a href="javascript:;" class="dropdown-item text-danger delete-record"
+                          onclick="deleteFunction({{ $item->transaksi_id }})">Delete</a>
+                        <form id="delete-form-{{ $item->transaksi_id }}"
+                          action="{{ route('sewa.destroy', $item->transaksi_id) }}" method="POST"
+                          style="display: none;">
+                          @method('DELETE')
+                          @csrf
+                        </form>
+                      </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
-        <h6 class="mb-0 fw-normal">Pending</h6>
-        <p class="mb-0">
-          <span class="me-1 fw-medium">.</span>
-          <small class="text-muted">Pending Status</small>
-        </p>
-      </div>
     </div>
   </div>
-  <div class="col-sm-6 col-lg-3">
-    <div class="card card-border-shadow-warning h-100">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-2">
-          <div class="avatar me-4">
-            <span class="avatar-initial rounded-3 bg-label-warning"><i class="ri-check-line ri-24px"></i></span>
-          </div>
-          <h4 class="mb-0">{{ $approveCount }}</h4>
+
+  <div class="modal fade" id="modalDetail" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDetailLabel">Detail Transaksi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <h6 class="mb-0 fw-normal">Approved</h6>
-        <p class="mb-0">
-          <span class="me-1 fw-medium">.</span>
-          <small class="text-muted">Approved Status</small>
-        </p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-lg-3">
-    <div class="card card-border-shadow-danger h-100">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-2">
-          <div class="avatar me-4">
-            <span class="avatar-initial rounded-3 bg-label-danger"><i class="ri-error-warning-line ri-24px"></i></span>
+        <div class="modal-body">
+          <div id="modal-body-content">
+            <!-- Dynamic content will be inserted here via AJAX -->
           </div>
-          <h4 class="mb-0">{{ $rejectCount }}</h4>
         </div>
-        <h6 class="mb-0 fw-normal">Reject</h6>
-        <p class="mb-0">
-          <span class="me-1 fw-medium">.</span>
-          <small class="text-muted">Reject Status</small>
-        </p>
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-lg-3">
-    <div class="card card-border-shadow-success h-100">
-      <div class="card-body">
-        <div class="d-flex align-items-center mb-2">
-          <div class="avatar me-4">
-            <span class="avatar-initial rounded-3 bg-label-success"><i class="ri-check-line ri-24px"></i></span>
+
+  <div class="modal fade" id="modalTambah" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
+      <div class="modal-content">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-body p-0">
+          <div class="text-center mb-2">
+            <h4 class="mb-2">Pilih Jenis Sewa</h4>
+            <i>Jenis Sewa, Klik selanjutnya untuk melanjutkan</i>
           </div>
-          <h4 class="mb-0">{{ $selesaiCount }}</h4>
+          <form id="jenisForm" class="row g-5 mt-3">
+            <div class="col-12 col-md-12 mt-4">
+              <div class="form-floating form-floating-outline">
+                <select id="jenis_id" name="jenis" class="select2 form-select form-select-lg" data-allow-clear="true">
+                  <option value="">Pilih Jenis Sewa</option> <!-- Default option without value -->
+                  @foreach ($jenis as $item)
+                  <option value="{{ $item->jenis_id }}">{{ $item->jenis_nama ?? '' }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-12 d-flex flex-wrap justify-content-center gap-4 row-gap-4">
+              <button type="reset" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal"
+                aria-label="Close">
+                Back
+              </button>
+              <button type="button" class="btn btn-primary waves-effect waves-light" id="btnSelanjutnya">
+                Selanjutnya
+              </button>
+            </div>
+          </form>
         </div>
-        <h6 class="mb-0 fw-normal">Selesai</h6>
-        <p class="mb-0">
-          <span class="me-1 fw-medium">.</span>
-          <small class="text-muted">Selesai Status</small>
-        </p>
       </div>
     </div>
   </div>
-</div>
-<div class="row ps-3 pe-3 mt-4 pb-3">
-  <div class="card p-0 pb-3">
-    <div class="card-header p-0 ps-4 pt-3 text-md-start text-center">
-      <div class="d-flex justify-content-between">
-        @if(Auth::user()->role == 'Admin')
-        <h5>Outstanding Approval</h5>
-        @else
-        <h5>Pending / Reject</h5>
 
-        @endif
-        {{-- <button type="button" id="btn-tambah" data-bs-toggle="modal" data-bs-target="#modalTambah"
-          class="btn btn-primary waves-effect waves-light">Tambah</button> --}}
+
+  {{-- <div class="modal fade" id="fullscreenModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="nav-align-top">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                  data-bs-target="#navs-top-home" aria-controls="navs-top-home" aria-selected="true">Data
+                  Penyewaan</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                  data-bs-target="#navs-top-profile" aria-controls="navs-top-profile"
+                  aria-selected="false">Pembayaran</button>
+              </li>
+              <li class="nav-item">
+                <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                  data-bs-target="#navs-top-messages" aria-controls="navs-top-messages" aria-selected="false">File
+                  Pendukung</button>
+              </li>
+            </ul>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <div class="tab-content p-0">
+            <div class="tab-pane fade show active" id="navs-top-home" role="tabpanel">
+
+
+
+
+
+
+
+
+            </div>
+            <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
+              <p>
+                Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice cream. Gummies
+                halvah
+                tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice cream cheesecake fruitcake.
+              </p>
+              <p class="mb-0">
+                Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah cotton candy
+                liquorice caramels.
+              </p>
+            </div>
+            <div class="tab-pane fade" id="navs-top-messages" role="tabpanel">
+              <p>
+                Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies cupcake gummi
+                bears
+                cake chocolate.
+              </p>
+              <p class="mb-0">
+                Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake. Sweet roll
+                icing
+                sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding jelly jelly-o tart brownie
+                jelly.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
       </div>
-
     </div>
-    <div class="card-datatable text-nowrap small p-0">
-      <table class="datatables-ajax table table-bordered" id="tableData">
-        <thead>
-          <tr>
-            <th>No.</th>
-            @if(Auth::user()->role == 'Admin')
-            <th class="text-center">User</th>
-            <th class="text-center">Seksi</th>
-            @endif
-            <th class="text-center">Kode</th>
-            <th class="text-center" style="max-width: 25px!important">Tanggal</th>
-            <th class="text-center" style="max-width: 25px!important">Total</th>
-            <th class="text-center" style="max-width: 30px!important">Status</th>
-          </tr>
-        </thead>
-        <tbody class="list">
-          @foreach ($tr as $item)
-          <tr role="row" class="odd ">
-            <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
-            @if(Auth::user()->role == 'Admin')
-            <td class="text-center">{{ $item->User->name ?? '' }}</td>
-            <td class="text-center">{{ $item->User->Seksi->seksi_name ?? '' }}</td>
-            @endif
-            <td class="text-center">
-              <a href="{{ route('transaksi.show', $item->transaksi_id) }}" class="text-primary "><u>{{
-                  $item->transaksi_code }}</u> </a>
+  </div> --}}
+  <style>
+    .bg-yellow {
+      background-color: yellow;
+    }
 
-            </td>
-            <td class="text-center">{{ \Carbon\Carbon::parse($item->transaksi_date)->format('d F Y') }}</td>
-            <td class="text-center">{{ $item->total_qty ?? 0 }}</td>
-            <td class="text-center">
-              @if($item->transaksi_status == "Pending")
-              <span class="badge rounded-pill  bg-label-primary">Pending</span>
-              @elseif($item->transaksi_status == 'Approved')
-              <span class="badge rounded-pill  bg-label-success">Approved</span>
-              @elseif($item->transaksi_status == 'Reject')
-              <span class="badge rounded-pill  bg-label-danger">Reject</span>
-              @elseif($item->transaksi_status == 'Selesai')
-              <span class="badge rounded-pill  bg-label-success">Done</span>
-              @endif
-            </td>
-          </tr>
-          @endforeach
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
+    .bg-red {
+      background-color: red;
+    }
 
-<script>
-  $(document).ready(function () {
-        var table = $('#tableData').DataTable();
+    .bg-purple {
+      background-color: purple;
+      color: white;
+      /* Ensure text is readable */
+    }
 
+    .bg-blue {
+      background-color: lightblue;
+    }
+
+    .bg-grey {
+      background-color: grey;
+      color: white;
+      /* Ensure text is readable */
+    }
+
+    .bg-orange {
+      background-color: orange;
+    }
+  </style>
+
+  <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
+
+  <script>
+    document.getElementById('btnSelanjutnya').addEventListener('click', function () {
+    const selectedValue = document.getElementById('jenis_id').value;
+    if (selectedValue) {
+      window.location.href = `/sewa/create?jenis=${encodeURIComponent(selectedValue)}`;
+    } else {
+      alert('Pilih jenis sewa sebelum melanjutkan!');
+    }
+  });
+
+  function deleteFunction(itemId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Prevent default behavior and submit the delete form
+        event.preventDefault();
+        document.getElementById(`delete-form-${itemId}`).submit();
+      }
     });
-</script>
-@endsection
+  }
+
+  function modalTambah() {
+    $('#modalTambah').modal('show')
+  }
+  $(document).ready(function () {
+    var table = $('#tableData').DataTable();
+    $('.open-modal').on('click', function () {
+      var transaksi_id = $(this).data('id');
+      console.log(transaksi_id)
+
+      $.ajax({
+            url: '/sewa/' + transaksi_id,  // This will hit the show method
+            type: 'GET',
+            success: function(response) {
+                console.log(response)
+                $('#fullscreenModal').modal('show');  // Open the modal
+            },
+            error: function(xhr, status, error) {
+                alert("An error occurred while fetching data.");
+            }
+        });
+    });
+  });
+
+  </script>
+  @endsection

@@ -2,15 +2,9 @@
   "menu": [
     {
       "route": "dashboard",
-      "name": "Dashboard",
+      "name": "Transaksi Sewa",
       "icon": "menu-icon tf-icons ri-home-smile-line",
       "slug": "dashboard"
-    },
-    {
-      "route": "user.profile",
-      "name": "My Profile",
-      "icon": "menu-icon tf-icons ri-user-line",
-      "slug": "user.profile"
     },
     {
       "menuHeader": "Master Data",
@@ -28,74 +22,22 @@
       ]
     },
     {
-      "route": "seksi.index",
-      "name": "Master Seksi",
+      "route": "jenis-sewa.index",
+      "name": "Master Jenis Sewa",
       "icon": "menu-icon tf-icons ri-database-2-line",
-      "slug": "seksi.index",
+      "slug": "jenis-sewa.index",
       "roles": [
         "Admin"
       ]
     },
     {
-      "route": "barang.index",
-      "name": "Master Barang",
-      "icon": "menu-icon tf-icons ri-database-2-line",
-      "slug": "barang.index",
-      "roles": [
-        "Admin"
-      ]
+      "menuHeader": "Pelaporan"
     },
     {
-      "menuHeader": "Transaksi"
-    },
-    {
-      "route": "transaksi.create",
-      "name": "Tambah Bon Barang",
-      "icon": "menu-icon tf-icons ri-add-line",
-      "slug": "transaksi.create",
-      "roles": [
-        "Petugas",
-        "User"
-      ]
-    },
-    {
-      "route": "perekaman.index",
-      "name": "Rekam Barang Masuk",
+      "route": "laporan-sewa.index",
+      "name": "Pelaporan",
       "icon": "menu-icon tf-icons ri-box-2-line",
-      "slug": "perekaman.index",
-      "roles": [
-        "Admin"
-      ]
-    },
-    {
-      "route": "transaksi.index",
-      "name": "History",
-      "icon": "menu-icon tf-icons ri-bill-line",
-      "slug": "transaksi.index"
-    },
-    {
-      "route": "opname.index",
-      "name": "Mutasi Barang",
-      "icon": "menu-icon tf-icons ri-box-3-line",
-      "slug": "opname.index",
-      "roles": [
-        "Admin"
-      ]
-    },
-    {
-      "route": "laporan-bulanan.index",
-      "name": "Laporan",
-      "icon": "menu-icon tf-icons ri-bill-line",
-      "slug": "laporan-bulanan.index",
-      "roles": [
-        "Admin"
-      ]
-    },
-    {
-      "route": "saran.index",
-      "name": "Saran dan Masukan",
-      "icon": "menu-icon tf-icons ri-home-smile-line",
-      "slug": "saran.index"
+      "slug": "laporan-sewa.index"
     }
   ]
 }

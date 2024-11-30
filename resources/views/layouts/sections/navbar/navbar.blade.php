@@ -1,7 +1,7 @@
 @php
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-$containerNav = ($configData['contentLayout'] === 'compact') ? 'container-xxl' : 'container-fluid';
+$containerNav = ($configData['contentLayout'] === 'compact') ? 'container-xl' : 'container-fluid';
 $navbarDetached = ($navbarDetached ?? '');
 $configData = Helper::appClasses();
 $user = Auth::user();

@@ -21,9 +21,7 @@ class User extends Authenticatable
     'name',
     'email',
     'password',
-    'seksi_id',
-    'phone_number',
-    'active',
+    'status',
     'role'
   ];
 
@@ -48,9 +46,5 @@ class User extends Authenticatable
       'email_verified_at' => 'datetime',
       'password' => 'hashed',
     ];
-  }
-  public function Seksi(): BelongsTo
-  {
-    return $this->belongsTo(Seksi::class, 'seksi_id', 'seksi_id');
   }
 }

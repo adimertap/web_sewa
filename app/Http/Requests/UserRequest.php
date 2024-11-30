@@ -36,16 +36,9 @@ class UserRequest extends FormRequest
         'min:5',
         Rule::unique('users', 'email')->ignore($this->id),
       ],
-      'role' => [
-        'required'
-      ],
       'password_user' => [
         'required',
         'min:5',
-      ],
-      'seksi_id' => [
-        'required',
-        Rule::exists('mst_seksi', 'seksi_id'),
       ]
     ];
   }

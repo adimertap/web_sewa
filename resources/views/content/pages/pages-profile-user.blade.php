@@ -36,13 +36,16 @@
       </div>
       <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-          <img src="{{asset('assets/img/avatars/1.png')}}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+          <img src="{{asset('assets/img/avatars/1.png')}}" alt="user image"
+            class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
         </div>
         <div class="flex-grow-1 mt-3 mt-sm-5">
-          <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+          <div
+            class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
             <div class="user-profile-info">
               <h4>John Doe</h4>
-              <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+              <ul
+                class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
                 <li class="list-inline-item">
                   <i class='mdi mdi-invert-colors me-1 mdi-20px'></i><span class="fw-medium">UX Designer</span>
                 </li>
@@ -50,7 +53,9 @@
                   <i class='mdi mdi-map-marker-outline me-1 mdi-20px'></i><span class="fw-medium">Vatican City</span>
                 </li>
                 <li class="list-inline-item">
-                  <i class='mdi mdi-calendar-blank-outline me-1 mdi-20px'></i><span class="fw-medium"> Joined April 2021</span></li>
+                  <i class='mdi mdi-calendar-blank-outline me-1 mdi-20px'></i><span class="fw-medium"> Joined April
+                    2021</span>
+                </li>
               </ul>
             </div>
             <a href="javascript:void(0)" class="btn btn-primary">
@@ -68,10 +73,14 @@
 <div class="row">
   <div class="col-md-12">
     <ul class="nav nav-pills flex-column flex-sm-row mb-4">
-      <li class="nav-item"><a class="nav-link active" href="javascript:void(0);"><i class='mdi mdi-account-outline me-1 mdi-20px'></i>Profile</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{url('pages/profile-teams')}}"><i class='mdi mdi-account-multiple-outline me-1 mdi-20px'></i>Teams</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{url('pages/profile-projects')}}"><i class='mdi mdi-view-grid-outline me-1 mdi-20px'></i>Projects</a></li>
-      <li class="nav-item"><a class="nav-link" href="{{url('pages/profile-connections')}}"><i class='mdi mdi-link me-1 mdi-20px'></i>Connections</a></li>
+      <li class="nav-item"><a class="nav-link active" href="javascript:void(0);"><i
+            class='mdi mdi-account-outline me-1 mdi-20px'></i>Profile</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{url('pages/profile-teams')}}"><i
+            class='mdi mdi-account-multiple-outline me-1 mdi-20px'></i>Teams</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{url('pages/profile-projects')}}"><i
+            class='mdi mdi-view-grid-outline me-1 mdi-20px'></i>Projects</a></li>
+      <li class="nav-item"><a class="nav-link" href="{{url('pages/profile-connections')}}"><i
+            class='mdi mdi-link me-1 mdi-20px'></i>Connections</a></li>
     </ul>
   </div>
 </div>
@@ -85,25 +94,35 @@
       <div class="card-body">
         <small class="card-text text-uppercase">About</small>
         <ul class="list-unstyled my-3 py-1">
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">Full Name:</span> <span>John Doe</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-check mdi-24px"></i><span class="fw-medium mx-2">Status:</span> <span>Active</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-star-outline mdi-24px"></i><span class="fw-medium mx-2">Role:</span> <span>Developer</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-flag-outline mdi-24px"></i><span class="fw-medium mx-2">Country:</span> <span>USA</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-translate mdi-24px"></i><span class="fw-medium mx-2">Languages:</span> <span>English</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-account-outline mdi-24px"></i><span
+              class="fw-medium mx-2">Full Name:</span> <span>John Doe</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-check mdi-24px"></i><span
+              class="fw-medium mx-2">Status:</span> <span>Active</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-star-outline mdi-24px"></i><span
+              class="fw-medium mx-2">Role:</span> <span>Developer</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-flag-outline mdi-24px"></i><span
+              class="fw-medium mx-2">Country:</span> <span>USA</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-translate mdi-24px"></i><span
+              class="fw-medium mx-2">Languages:</span> <span>English</span></li>
         </ul>
         <small class="card-text text-uppercase">Contacts</small>
         <ul class="list-unstyled my-3 py-1">
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-phone-outline mdi-24px"></i><span class="fw-medium mx-2">Contact:</span> <span>(123) 456-7890</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-message-outline mdi-24px"></i><span class="fw-medium mx-2">Skype:</span> <span>john.doe</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-email-outline mdi-24px"></i><span class="fw-medium mx-2">Email:</span> <span>john.doe@example.com</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-phone-outline mdi-24px"></i><span
+              class="fw-medium mx-2">Contact:</span> <span>(123) 456-7890</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-message-outline mdi-24px"></i><span
+              class="fw-medium mx-2">Skype:</span> <span>john.doe</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-email-outline mdi-24px"></i><span
+              class="fw-medium mx-2">Email:</span> <span>john.doe@example.com</span></li>
         </ul>
         <small class="card-text text-uppercase">Teams</small>
         <ul class="list-unstyled mb-0 mt-3 pt-1">
           <li class="d-flex align-items-center mb-3"><i class="mdi mdi-github mdi-24px text-secondary me-2"></i>
-            <div class="d-flex flex-wrap"><span class="fw-medium me-2">Backend Developer</span><span>(126 Members)</span></div>
+            <div class="d-flex flex-wrap"><span class="fw-medium me-2">Backend Developer</span><span>(126
+                Members)</span></div>
           </li>
           <li class="d-flex align-items-center"><i class="mdi mdi-react mdi-24px text-info me-2"></i>
-            <div class="d-flex flex-wrap"><span class="fw-medium me-2">React Developer</span><span>(98 Members)</span></div>
+            <div class="d-flex flex-wrap"><span class="fw-medium me-2">React Developer</span><span>(98 Members)</span>
+            </div>
           </li>
         </ul>
       </div>
@@ -114,9 +133,12 @@
       <div class="card-body">
         <small class="card-text text-uppercase">Overview</small>
         <ul class="list-unstyled mb-0 mt-3 pt-1">
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-check mdi-24px"></i><span class="fw-medium mx-2">Task Compiled:</span> <span>13.5k</span></li>
-          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-account-outline mdi-24px"></i><span class="fw-medium mx-2">Projects Compiled:</span> <span>146</span></li>
-          <li class="d-flex align-items-center"><i class="mdi mdi-view-grid-outline mdi-24px"></i><span class="fw-medium mx-2">Connections:</span> <span>897</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-check mdi-24px"></i><span
+              class="fw-medium mx-2">Task Compiled:</span> <span>13.5k</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="mdi mdi-account-outline mdi-24px"></i><span
+              class="fw-medium mx-2">Projects Compiled:</span> <span>146</span></li>
+          <li class="d-flex align-items-center"><i class="mdi mdi-view-grid-outline mdi-24px"></i><span
+              class="fw-medium mx-2">Connections:</span> <span>897</span></li>
         </ul>
       </div>
     </div>
@@ -126,10 +148,12 @@
     <!-- Activity Timeline -->
     <div class="card card-action mb-4">
       <div class="card-header align-items-center">
-        <h5 class="card-action-title mb-0"><i class='mdi mdi-format-list-bulleted mdi-24px me-2'></i>Activity Timeline</h5>
+        <h5 class="card-action-title mb-0"><i class='mdi mdi-format-list-bulleted mdi-24px me-2'></i>Activity Timeline
+        </h5>
         <div class="card-action-element">
           <div class="dropdown">
-            <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical mdi-24px text-muted"></i></button>
+            <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+              aria-expanded="false"><i class="mdi mdi-dots-vertical mdi-24px text-muted"></i></button>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="javascript:void(0);">Share timeline</a></li>
               <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
@@ -179,7 +203,8 @@
                 <h6 class="mb-0">Shared 2 New Project Files</h6>
                 <small class="text-muted">6 Day Ago</small>
               </div>
-              <p class="mb-2">Sent by Mollie Dixon <img src="{{asset('assets/img/avatars/4.png')}}" class="rounded-circle me-3" alt="avatar" height="24" width="24"></p>
+              <p class="mb-2">Sent by Mollie Dixon <img src="{{asset('assets/img/avatars/4.png')}}"
+                  class="rounded-circle me-3" alt="avatar" height="24" width="24"></p>
               <div class="d-flex flex-wrap gap-2">
                 <a href="javascript:void(0)" class="me-3">
                   <img src="{{asset('assets/img/icons/misc/doc.png')}}" alt="Document image" width="15" class="me-2">
@@ -214,7 +239,8 @@
             <h5 class="card-action-title mb-0">Connections</h5>
             <div class="card-action-element">
               <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical mdi-24px text-muted"></i></button>
+                <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+                  aria-expanded="false"><i class="mdi mdi-dots-vertical mdi-24px text-muted"></i></button>
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li><a class="dropdown-item" href="javascript:void(0);">Share connections</a></li>
                   <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
@@ -240,7 +266,8 @@
                     </div>
                   </div>
                   <div class="ms-auto">
-                    <button class="btn btn-outline-primary btn-icon"><i class="mdi mdi-account-outline mdi-24px"></i></button>
+                    <button class="btn btn-outline-primary btn-icon"><i
+                        class="mdi mdi-account-outline mdi-24px"></i></button>
                   </div>
                 </div>
               </li>
@@ -288,7 +315,8 @@
                     </div>
                   </div>
                   <div class="ms-auto">
-                    <button class="btn btn-outline-primary btn-icon"><i class="mdi mdi-account-outline mdi-24px"></i></button>
+                    <button class="btn btn-outline-primary btn-icon"><i
+                        class="mdi mdi-account-outline mdi-24px"></i></button>
                   </div>
                 </div>
               <li class="mb-3">
@@ -303,7 +331,8 @@
                     </div>
                   </div>
                   <div class="ms-auto">
-                    <button class="btn btn-outline-primary btn-icon"><i class="mdi mdi-account-outline mdi-24px"></i></button>
+                    <button class="btn btn-outline-primary btn-icon"><i
+                        class="mdi mdi-account-outline mdi-24px"></i></button>
                   </div>
                 </div>
               </li>
@@ -322,7 +351,8 @@
             <h5 class="card-action-title mb-0">Teams</h5>
             <div class="card-action-element">
               <div class="dropdown">
-                <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical mdi-24px text-muted"></i></button>
+                <button type="button" class="btn dropdown-toggle hide-arrow p-0" data-bs-toggle="dropdown"
+                  aria-expanded="false"><i class="mdi mdi-dots-vertical mdi-24px text-muted"></i></button>
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li><a class="dropdown-item" href="javascript:void(0);">Share teams</a></li>
                   <li><a class="dropdown-item" href="javascript:void(0);">Suggest edits</a></li>
@@ -340,7 +370,8 @@
                 <div class="d-flex align-items-center">
                   <div class="d-flex align-items-start">
                     <div class="avatar me-3">
-                      <img src="{{asset('assets/img/icons/brands/react-label.png')}}" alt="Avatar" class="rounded-circle" />
+                      <img src="{{asset('assets/img/icons/brands/react-label.png')}}" alt="Avatar"
+                        class="rounded-circle" />
                     </div>
                     <div class="me-2">
                       <h6 class="mb-0">React Developers</h6>
@@ -356,7 +387,8 @@
                 <div class="d-flex align-items-center">
                   <div class="d-flex align-items-start">
                     <div class="avatar me-3">
-                      <img src="{{asset('assets/img/icons/brands/support-label.png')}}" alt="Avatar" class="rounded-circle" />
+                      <img src="{{asset('assets/img/icons/brands/support-label.png')}}" alt="Avatar"
+                        class="rounded-circle" />
                     </div>
                     <div class="me-2">
                       <h6 class="mb-0">Support Team</h6>
@@ -372,7 +404,8 @@
                 <div class="d-flex align-items-center">
                   <div class="d-flex align-items-start">
                     <div class="avatar me-3">
-                      <img src="{{asset('assets/img/icons/brands/figma-label.png')}}" alt="Avatar" class="rounded-circle" />
+                      <img src="{{asset('assets/img/icons/brands/figma-label.png')}}" alt="Avatar"
+                        class="rounded-circle" />
                     </div>
                     <div class="me-2">
                       <h6 class="mb-0">UI Designers</h6>
@@ -388,7 +421,8 @@
                 <div class="d-flex align-items-center">
                   <div class="d-flex align-items-start">
                     <div class="avatar me-3">
-                      <img src="{{asset('assets/img/icons/brands/vue-label.png')}}" alt="Avatar" class="rounded-circle" />
+                      <img src="{{asset('assets/img/icons/brands/vue-label.png')}}" alt="Avatar"
+                        class="rounded-circle" />
                     </div>
                     <div class="me-2">
                       <h6 class="mb-0">Vue.js Developers</h6>
@@ -404,7 +438,8 @@
                 <div class="d-flex align-items-center">
                   <div class="d-flex align-items-start">
                     <div class="avatar me-3">
-                      <img src="{{asset('assets/img/icons/brands/twitter-label.png')}}" alt="Avatar" class="rounded-circle" />
+                      <img src="{{asset('assets/img/icons/brands/twitter-label.png')}}" alt="Avatar"
+                        class="rounded-circle" />
                     </div>
                     <div class="me-w">
                       <h6 class="mb-0">Digital Marketing</h6>

@@ -9,7 +9,7 @@ $configData = Helper::appClasses();
 @php
 /* Display elements */
 $contentNavbar = ($contentNavbar ?? true);
-$containerNav = ($containerNav ?? 'container-xxl');
+$containerNav = ($containerNav ?? 'container-xl');
 $isNavbar = ($isNavbar ?? true);
 $isMenu = ($isMenu ?? true);
 $isFlex = ($isFlex ?? false);
@@ -27,7 +27,7 @@ $footerFixed = (isset($configData['footerFixed']) ? $configData['footerFixed'] :
 $menuCollapsed = (isset($configData['menuCollapsed']) ? $configData['menuCollapsed'] : '');
 
 /* Content classes */
-$container = ($configData['contentLayout'] === 'compact') ? 'container-xxl' : 'container-fluid';
+$container = ($configData['contentLayout'] === 'compact') ? 'container-xl' : 'container-fluid';
 
 @endphp
 

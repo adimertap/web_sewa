@@ -20,10 +20,9 @@ class UserController extends Controller
   public function index()
   {
     try {
-      $user = User::with('Seksi')->get();
-      $seksi = Seksi::where('status', 'A')->get();
+      $user = User::get();
 
-      return view('pages.Master.User.user', compact('user', 'seksi'));
+      return view('pages.Master.User.user', compact('user'));
     } catch (\Throwable $th) {
       return $th;
       Alert::warning('Warning', 'Internal Server Error, Data Not Found');
@@ -31,27 +30,6 @@ class UserController extends Controller
     }
   }
 
-  public function myprofile()
-  {
-    try {
-      $user = User::find(Auth::user()->id);
-      if (!$user) {
-        Alert::warning('Warning', 'Internal Server Error, Data Not Found');
-        return redirect()->back();
-      }
-      $tr = Transaksi::where('user_id', Auth::user()->id)->orderBy('transaksi_id', 'DESC')->get();
-
-      $countPending = Transaksi::where('user_id', Auth::user()->id)->where('transaksi_status', 'Pending')->where('transaksi_type', 'Checkout')->count();
-      $countApproved = Transaksi::where('user_id', Auth::user()->id)->where('transaksi_status', 'Approved')->where('transaksi_type', 'Checkout')->count();
-      $countReject = Transaksi::where('user_id', Auth::user()->id)->where('transaksi_status', 'Reject')->where('transaksi_type', 'Checkout')->count();
-      $countSelesai = Transaksi::where('user_id', Auth::user()->id)->where('transaksi_status', 'Selesai')->where('transaksi_type', 'Checkout')->count();
-
-      return view('pages.profile.myprofile', compact('user', 'tr', 'countPending', 'countApproved', 'countReject', 'countSelesai'));
-    } catch (\Throwable $th) {
-      Alert::warning('Warning', 'Internal Server Error, Data Not Found');
-      return redirect()->back();
-    }
-  }
   /**
    * Show the form for creating a new resource.
    */
@@ -72,10 +50,8 @@ class UserController extends Controller
       $item->name = $request->name;
       $item->email = $request->email;
       $item->password = Hash::make($request->password_user);
-      $item->phone_number = $request->phone_number ?? null;
-      $item->seksi_id = $request->seksi_id;
-      $item->role = $request->role;
-      $item->active = 'A';
+      $item->role = 'Admin';
+      $item->status = 'A';
       $item->save();
       DB::commit();
 
@@ -119,7 +95,7 @@ class UserController extends Controller
   public function show(string $id)
   {
     try {
-      $item = User::with('Seksi')->find($id);
+      $item = User::find($id);
       if (!$item) {
         return 404;
       }
@@ -137,15 +113,8 @@ class UserController extends Controller
   public function edit(string $id)
   {
     try {
-      $user = User::with('Seksi')->find($id);
-      $tr = Transaksi::where('user_id', $id)->orderBy('transaksi_id', 'DESC')->get();
-
-      $countPending = Transaksi::where('user_id', $id)->where('transaksi_status', 'Pending')->where('transaksi_type', 'Checkout')->count();
-      $countApproved = Transaksi::where('user_id', $id)->where('transaksi_status', 'Approved')->where('transaksi_type', 'Checkout')->count();
-      $countReject = Transaksi::where('user_id', $id)->where('transaksi_status', 'Reject')->where('transaksi_type', 'Checkout')->count();
-      $countSelesai = Transaksi::where('user_id', $id)->where('transaksi_status', 'Selesai')->where('transaksi_type', 'Checkout')->count();
-
-      return view('pages.Master.User.detail', compact('user', 'tr', 'countPending', 'countApproved', 'countReject', 'countSelesai'));
+      $user = User::find($id);
+      return view('pages.Master.User.detail', compact('user'));
     } catch (\Throwable $th) {
       return $th;
       Alert::warning('Warning', 'Internal Server Error, Data Not Found');
@@ -163,9 +132,6 @@ class UserController extends Controller
       $item = User::find($id);
       $item->name = $request->name;
       $item->email = $request->email;
-      $item->phone_number = $request->phone_number;
-      $item->seksi_id = $request->seksi_id;
-      $item->role = $request->role;
       $item->update();
       DB::commit();
 

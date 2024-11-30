@@ -40,8 +40,6 @@
           <th>No.</th>
           <th class="text-center">Nama</th>
           <th class="text-center">Email</th>
-          <th class="text-center">No. Telp</th>
-          <th class="text-center">Seksi</th>
           <th class="text-center">Role</th>
           <th class="text-center">Status</th>
           <th class="text-center">Action</th>
@@ -53,21 +51,9 @@
           <th scope="row" class="text-center">{{ $loop->iteration }}.</th>
           <td class="text-center">{{ $item->name }}</td>
           <td class="text-center">{{ $item->email }}</td>
-          <td class="text-center">{{ $item->phone_number ?? '-' }}</td>
-          <td class="text-center">{{ $item->Seksi->seksi_name ?? '' }}</td>
           <td class="text-center">
-            @if($item->role == "Admin")
             <span class="text-truncate d-flex align-items-center text-heading"><i
                 class="ri-computer-line ri-22px text-danger me-2"></i>Admin</span>
-            @elseif($item->role == 'User')
-            <span class="text-truncate d-flex align-items-center text-heading"><i
-                class="ri-user-line ri-22px text-primary me-2"></i>Pegawai</span>
-            @elseif($item->role == 'Petugas')
-            <span class="text-truncate d-flex align-items-center text-heading"><i
-                class="ri-computer-line ri-22px text-secondary me-2"></i>Petugas</span>
-            @else
-            <p class="=small text-danger">not maintain</p>
-            @endif
           </td>
           <td class="text-center">
             @if($item->active = 'A')
@@ -92,8 +78,7 @@
             </form>
             <button class="btn btn-sm btn-icon btn-text-secondary rounded-pill waves-effect dropdown-toggle hide-arrow"
               data-bs-toggle="dropdown"><i class="ri-more-2-line ri-20px"></i></button>
-            <div class="dropdown-menu dropdown-menu-end m-0"><a href="{{ route('user.edit', $item->id) }}"
-                class="dropdown-item"><i class="ri-eye-line me-2"></i><span>Detail</span></a>
+            <div class="dropdown-menu dropdown-menu-end m-0">
               <button type="button" class="dropdown-item" value="{{ $item->id }}"
                 onclick="modalPasswordFunction({{ $item->id }})">
                 <i class="ri-edit-box-line me-2"></i><span>Change Password</span>
@@ -107,8 +92,8 @@
 </div>
 
 <!-- Edit User Modal -->
-<div class="modal fade  " id="modalTambah" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-simple modal-dialog-centered">
+<div class="modal fade" id="modalTambah" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-simple modal-dialog-centered">
     <div class="modal-content">
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       <div class="modal-body p-0">
@@ -140,56 +125,7 @@
               @enderror
             </div>
           </div>
-          <div class="col-12 col-md-6 mt-3">
-            <div class="input-group input-group-merge">
-              <span class="input-group-text">ID (+62)</span>
-              <div class="form-floating form-floating-outline">
-                <input type="number" id="phone_number" name="phone_number"
-                  class="form-control phone-number-mask @error('phone_number') is-invalid @enderror"
-                  value="{{ old('phone_number') }}" placeholder="+62 81 111 111 111">
-                <label for="phone_number">Phone Number</label> <!-- Change for attribute -->
-              </div>
-            </div>
-            @error('phone_number')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-          </div>
-
-          <div class="col-12 col-md-6 mt-3">
-            <div class="form-floating form-floating-outline">
-              <select type="text" id="seksi_id" name="seksi_id"
-                class="form-select @error('seksi_id') is-invalid @enderror" value="{{ old('seksi_id') }}">
-                <option value="">Pilih Seksi</option> <!-- Default option without value -->
-                @foreach ($seksi as $item)
-                <option value="{{ $item->seksi_id }}" {{ old('seksi_id')==$item->seksi_id ? 'selected' :
-                  '' }}>
-                  {{ $item->seksi_name }}
-                </option>
-                @endforeach
-              </select>
-              <label for="modalEditUserEmail">Seksi <span class="mr-4 mb-3" style="color: red">*</span></label>
-              @error('seksi_id')
-              <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-          <div class="col-12 col-md-6 mt-3">
-            <div class="form-floating form-floating-outline">
-              <select type="text" id="role" name="role" class="form-select @error('role') is-invalid @enderror"
-                value="{{ old('seksi_id') }}">
-                <option value="">Pilih Role</option>
-                <option value="User" {{ old('role')=='User' ? 'selected' : '' }}>Pegawai</option>
-                <option value="Admin" {{ old('role')=='Admin' ? 'selected' : '' }}>Admin</option>
-                <option value="Petugas" {{ old('role')=='Petugas' ? 'selected' : '' }}>Petugas</option>
-
-              </select>
-              <label>Role <span class="mr-4 mb-3" style="color: red">*</span></label>
-              @error('role')
-              <div class="invalid-feedback">{{ $message }}</div>
-              @enderror
-            </div>
-          </div>
-          <div class="col-12 col-md-6 mt-3" id="tempPassword">
+          <div class="col-12 col-md-12 mt-3" id="tempPassword">
             <div class="form-floating form-floating-outline">
               <input type="password" id="password_user" name="password_user"
                 class="form-control @error('password_user') is-invalid @enderror" placeholder="Input Password User">
@@ -284,6 +220,7 @@
                 method: 'get',
                 url: '/Master/user/' + id,
                 success: function (response) {
+                  console.log(response)
                     if(response == 404){
                         Swal.fire({
                             title: 'Warning!',
@@ -302,36 +239,14 @@
                         $('#userId').val(id);
                         $('input[name="name"]').val(response.name);
                         $('input[name="email"]').val(response.email);
-                        $('input[name="phone_number"]').val(response.phone_number);
-                        $('#seksi_id').empty();
-                        var uniqueSeksiNames = [];
-                        // Add the new option obtained from the response
-                        if (!uniqueSeksiNames.includes(response.seksi.seksi_name)) {
-                            $('#seksi_id').append($('<option>', {
-                                value: response.seksi.seksi_id,
-                                text: response.seksi.seksi_name
-                            }));
-                            uniqueSeksiNames.push(response.seksi.seksi_name);
-                        }
-                        // Loop through the rest of the options generated by Blade
-                        // and add only unique names
-                        @foreach ($seksi as $item)
-                            if (!uniqueSeksiNames.includes("{{ $item->seksi_name }}")) {
-                                $('#seksi_id').append($('<option>', {
-                                    value: "{{ $item->seksi_id }}",
-                                    text: "{{ $item->seksi_name }}"
-                                }));
-                                uniqueSeksiNames.push("{{ $item->seksi_name }}");
-                            }
-                        @endforeach
                         $('#role').val(response.role);
-                        if (response.seksi_id) {
-                            let url = "{{ route('user.update', ':id')}}"
-                            url = url.replace(':id', id)
-                            $('#userForm').attr('action', url);
-                            $('#userForm').attr('method', 'POST');
-                            $('#userForm').append('<input type="hidden" name="_method" value="PUT">');
-                        }
+
+                        let url = "{{ route('user.update', ':id')}}"
+                        url = url.replace(':id', id)
+                        $('#userForm').attr('action', url);
+                        $('#userForm').attr('method', 'POST');
+                        $('#userForm').append('<input type="hidden" name="_method" value="PUT">');
+
                     }
                 },
                 error: function (response) {
@@ -350,13 +265,8 @@
             $('#userId').val('');
             $('#name').val('');
             $('#email').val('');
-            $('#phone_number').val('');
-            $('#seksi_id').val('');
             $('#role').val('');
             $('#password_user').val('');
-
-
-
         });
     });
     document.addEventListener('DOMContentLoaded', function () {

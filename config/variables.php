@@ -3,8 +3,8 @@
 return [
   "creatorName" => "Pixinvent",
   "creatorUrl" => "https://pixinvent.com",
-  "templateName" => "Bon Barang",
-  "templateSuffix" => "Bon Barang",
+  "templateName" => "Web Sewa",
+  "templateSuffix" => "Web Sewa",
   "templateVersion" => "1.3.0",
   "templateFree" => false,
   "templateDescription" => "Materialize – is the most developer friendly & highly customizable Admin Dashboard Template.",

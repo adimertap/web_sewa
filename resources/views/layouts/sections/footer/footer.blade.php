@@ -1,5 +1,5 @@
 @php
-$containerFooter = ($configData['contentLayout'] === 'compact') ? 'container-xxl' : 'container-fluid';
+$containerFooter = ($configData['contentLayout'] === 'compact') ? 'container-xl' : 'container-fluid';
 @endphp
 
 <!-- Footer-->

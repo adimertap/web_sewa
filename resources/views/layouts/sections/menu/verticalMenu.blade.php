@@ -10,7 +10,7 @@ $user = Auth::user();
   @if(!isset($navbarFull))
   <div class="app-brand demo">
     <a href="{{ url('/') }}" class="app-brand-link">
-      <span class="app-brand-text demo menu-text fw-semibold">Bon Barang</span>
+      <span class="app-brand-text demo menu-text fw-semibold">Web Sewa</span>
     </a>
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

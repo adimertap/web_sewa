@@ -25,8 +25,8 @@ $footerFixed = (isset($configData['footerFixed']) ? $configData['footerFixed'] :
 $menuCollapsed = (isset($configData['menuCollapsed']) ? $configData['menuCollapsed'] : '');
 
 /* Content classes */
-$container = ($configData['contentLayout'] === 'compact') ? 'container-xxl' : 'container-fluid';
-$containerNav = ($configData['contentLayout'] === 'compact') ? 'container-xxl' : 'container-fluid';
+$container = ($configData['contentLayout'] === 'compact') ? 'container-xl' : 'container-fluid';
+$containerNav = ($configData['contentLayout'] === 'compact') ? 'container-xl' : 'container-fluid';
 
 @endphp
 

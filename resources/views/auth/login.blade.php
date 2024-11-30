@@ -6,7 +6,7 @@ $customizerHidden = 'customizer-hide';
 {{-- @extends('layouts/layoutMaster') --}}
 @extends('layouts.blankLayout')
 
-@section('title', 'Bon Barang')
+@section('title', 'Web Sewa')
 
 @section('vendor-style')
 <!-- Vendor -->
@@ -43,7 +43,7 @@ $customizerHidden = 'customizer-hide';
         <div class="card p-4 pt-5 pb-5">
           <div class="card-body mt-2">
             <h4 class="mb-2">Selamat Datang! 👋</h4>
-            <p class="mb-4">Please sign-in to your account and start bon barang</p>
+            <p class="mb-4">Please sign-in to your account and input your transaction</p>
 
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email or username"

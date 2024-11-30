@@ -172,6 +172,7 @@ return [
     App\Providers\RouteServiceProvider::class,
     App\Providers\MenuServiceProvider::class,
     RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+    Maatwebsite\Excel\ExcelServiceProvider::class,
   ])->toArray(),
 
   /*
@@ -189,6 +190,7 @@ return [
     // 'Example' => App\Facades\Example::class,
     'Storage' => Illuminate\Support\Facades\Storage::class,
     'Helper' => App\Helpers\Helpers::class,
+    'Excel' => Maatwebsite\Excel\Facades\Excel::class,
   ])->toArray(),
 
 ];

@@ -7702,7 +7702,7 @@ a.invert-bg-dark:hover, a.invert-bg-dark:focus {
 }
 .table th {
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   letter-spacing: 1px;
   color: #d2d2e8;
 }
@@ -19513,8 +19513,8 @@ body {
   .container-lg,
   .container-xl,
   .container-xxl {
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 }
 
