@@ -81,21 +81,21 @@ $configData = Helper::appClasses();
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nomor_perjanjian" name="nomor_perjanjian"
                 placeholder="Nomor Perjanjian Sewa" value="{{ $item->nomor_perjanjian }}" />
-              <label for="nomor_perjanjian">Nomor Perjanjian Sewa <span style="color: red">*</span></label>
+              <label for="nomor_perjanjian">Nomor Perjanjian Sewa </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="date" class="form-control" id="tanggal_perjanjian" name="tanggal_perjanjian"
                 placeholder="Tanggal Perjanjian Sewa" value="{{ $item->tanggal_perjanjian }}" />
-              <label for="tanggal_perjanjian">Tanggal Perjanjian Sewa <span style="color: red">*</span></label>
+              <label for="tanggal_perjanjian">Tanggal Perjanjian Sewa </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nomor_kode_barang" name="nomor_kode_barang"
                 placeholder="Kode Barang" value="{{ $item->nomor_kode_barang }}" />
-              <label for="nomor_kode_barang">Kode Barang <span style="color: red">*</span></label>
+              <label for="nomor_kode_barang">Kode Barang </label>
             </div>
           </div>
         </div>
@@ -105,14 +105,14 @@ $configData = Helper::appClasses();
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nomor_register" name="nomor_register"
                 placeholder="No. Register" value="{{ $item->nomor_register }}" />
-              <label for="nomor_register">No. Register <span style="color: red">*</span></label>
+              <label for="nomor_register">No. Register </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="sertipikat" name="sertipikat" placeholder="Sertifikat"
                 value="{{ $item->sertipikat }}" />
-              <label for="sertipikat">Sertifikat <span style="color: red">*</span></label>
+              <label for="sertipikat">Sertifikat </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
@@ -130,14 +130,14 @@ $configData = Helper::appClasses();
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="luas_total_sertipikat" name="luas_total_sertipikat"
                 placeholder="Total Luas Sertifikat" value="{{ $item->luas_total_sertipikat }}" />
-              <label for="luas_total_sertipikat">Total Luas Sertifikat <span style="color: red">*</span></label>
+              <label for="luas_total_sertipikat">Total Luas Sertifikat </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="luas_yang_disewa" name="luas_yang_disewa"
                 placeholder="Luas yang Disewa" value="{{ $item->luas_yang_disewa }}" />
-              <label for="luas_yang_disewa">Luas yang Disewa <span style="color: red">*</span></label>
+              <label for="luas_yang_disewa">Luas yang Disewa </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
@@ -155,7 +155,7 @@ $configData = Helper::appClasses();
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control form-control-sm" id="lokasi" name="lokasi" placeholder="Lokasi"
                 value="{{ $item->lokasi }}" />
-              <label for="lokasi">Lokasi <span style="color: red">*</span></label>
+              <label for="lokasi">Lokasi </label>
             </div>
           </div>
 
@@ -165,14 +165,14 @@ $configData = Helper::appClasses();
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten / Kota"
                 value="{{ $item->kabupaten }}" />
-              <label for="kabupaten">Kabupaten / Kota <span style="color: red">*</span></label>
+              <label for="kabupaten">Kabupaten / Kota </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="jangka_waktu_kerjasama" name="jangka_waktu_kerjasama"
                 placeholder="Jangka Waktu Kerjasama" value="{{ $item->jangka_waktu_kerjasama }}" />
-              <label for="jangka_waktu_kerjasama">Jangka Waktu Kerjasama <span style="color: red">*</span></label>
+              <label for="jangka_waktu_kerjasama">Jangka Waktu Kerjasama </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
@@ -198,21 +198,21 @@ $configData = Helper::appClasses();
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="NIK" name="NIK" value="{{ $item->NIK }}"
                 placeholder="NIK Pengguna" maxlength="17" />
-              <label for="NIK">NIK <span style="color: red">*</span></label>
+              <label for="NIK">NIK </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna"
                 placeholder="Nama Pengguna" value="{{ $item->nama_pengguna }}" />
-              <label for="nama_pengguna">Nama Pengguna <span style="color: red">*</span></label>
+              <label for="nama_pengguna">Nama Pengguna </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nomor_telepon" name="nomor_telepon"
                 placeholder="Nomor Telepon" value="{{ $item->nomor_telepon }}" />
-              <label for="nomor_telepon">Nomor Telepon <span style="color: red">*</span></label>
+              <label for="nomor_telepon">Nomor Telepon </label>
             </div>
           </div>
         </div>
@@ -254,7 +254,7 @@ $configData = Helper::appClasses();
               <div class="form-floating form-floating-outline mb-3">
                 <input type="text" class="form-control form-control-sm" value="{{ $item->peruntukan }}" id="peruntukan"
                   name="peruntukan" placeholder="Peruntukan" />
-                <label for="peruntukan">Peruntukan <span style="color: red">*</span></label>
+                <label for="peruntukan">Peruntukan </label>
               </div>
             </div>
           </div>
@@ -270,13 +270,13 @@ $configData = Helper::appClasses();
                     value="{{ $item->jatuh_tempo_pembangunan_belum }}" name="jatuh_tempo_pembangunan" value="belum"
                     checked />
                   <label class="form-check-label" for="jatuh_tempo_pembangunan_belum">Belum Jatuh Tempo
-                    Pembagunan</label>
+                    Pembayaran</label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" id="jatuh_tempo_pembangunan_sudah"
                     name="jatuh_tempo_pembangunan" value="sudah" value="{{ $item->jatuh_tempo_pembangunan_belum }}" />
                   <label class="form-check-label" for="jatuh_tempo_pembangunan_sudah">Sudah Jatuh Tempo
-                    Pembangunan</label>
+                    Pembayaran</label>
                 </div>
               </div>
             </div>
@@ -284,7 +284,7 @@ $configData = Helper::appClasses();
               <div class="form-floating form-floating-outline mb-3">
                 <input type="date" class="form-control" id="jatuh_tempo_pembayaran" name="jatuh_tempo_pembayaran"
                   placeholder="Jatuh Tempo Pembayaran" value="{{ $item->jatuh_tempo_pembayaran }}" />
-                <label for="jatuh_tempo_pembayaran">Jatuh Tempo Pembayaran <span style="color: red">*</span></label>
+                <label for="jatuh_tempo_pembayaran">Jatuh Tempo Pembayaran </label>
               </div>
             </div>
 
@@ -295,21 +295,21 @@ $configData = Helper::appClasses();
               <div class="form-floating form-floating-outline mb-3">
                 <input type="text" class="form-control" value="{{ $item->sistem_pembayaran }}" id="sistem_pembayaran"
                   name="sistem_pembayaran" placeholder="Sistem Pembayaran" />
-                <label for="sistem_pembayaran">Sistem Pembayaran <span style="color: red">*</span></label>
+                <label for="sistem_pembayaran">Sistem Pembayaran </label>
               </div>
             </div>
             <div class="col-lg-4 col-sm-6">
               <div class="form-floating form-floating-outline mb-3">
                 <input type="date" class="form-control" value="{{ $item->jangka_waktu_mulai }}" id="jangka_waktu_mulai"
                   name="jangka_waktu_mulai" placeholder="Jangka Waktu Mulai" />
-                <label for="jangka_waktu_mulai">Jangka Waktu Mulai <span style="color: red">*</span></label>
+                <label for="jangka_waktu_mulai">Jangka Waktu Mulai </label>
               </div>
             </div>
             <div class="col-lg-4 col-sm-6">
               <div class="form-floating form-floating-outline mb-3">
                 <input type="date" class="form-control" value="{{ $item->jangka_waktu_selesai }}"
                   id="jangka_waktu_selesai" name="jangka_waktu_selesai" placeholder="Jangka Waktu Mulai" />
-                <label for="jangka_waktu_selesai">Jangka Waktu Selesai <span style="color: red">*</span></label>
+                <label for="jangka_waktu_selesai">Jangka Waktu Selesai </label>
               </div>
             </div>
           </div>
@@ -321,7 +321,7 @@ $configData = Helper::appClasses();
                 <div class="form-floating form-floating-outline">
                   <input type="number" class="form-control" placeholder="Besaran Sewa (Number)" id="besar_sewa"
                     name="besar_sewa" value="{{ $item->besar_sewa }}" />
-                  <label>Besaran Sewa <span style="color: red">*</span></label>
+                  <label>Besaran Sewa </label>
                 </div>
               </div>
             </div>
@@ -329,7 +329,7 @@ $configData = Helper::appClasses();
               <div class="form-floating form-floating-outline mb-3">
                 <input type="text" class="form-control" id="besar_sewa_per" name="besar_sewa_per"
                   placeholder="Per Tahun Naik ..." value="{{ $item->besar_sewa_per }}" />
-                <label for="besar_sewa_per">Keterangan Besaran Sewa<span style="color: red">*</span></label>
+                <label for="besar_sewa_per">Keterangan Besaran Sewa</label>
               </div>
             </div>
             <div class="col-lg-4 col-sm-6">
@@ -338,7 +338,7 @@ $configData = Helper::appClasses();
                 <div class="form-floating form-floating-outline">
                   <input type="number" class="form-control" placeholder="Kontribusi Awal (Number)" id="kontribusi_awal"
                     name="kontribusi_awal" value="{{ $item->kontribusi_awal }}" />
-                  <label>Kontribusi Awal <span style="color: red">*</span></label>
+                  <label>Kontribusi Awal </label>
                 </div>
               </div>
             </div>
@@ -348,7 +348,7 @@ $configData = Helper::appClasses();
               <div class="form-floating form-floating-outline mb-3">
                 <input type="text" class="form-control form-control-sm" id="keterangan" name="keterangan"
                   placeholder="Keterangan" value="{{ $item->keterangan }}" />
-                <label for="keterangan">Keterangan <span style="color: red">*</span></label>
+                <label for="keterangan">Keterangan </label>
               </div>
             </div>
           </div>

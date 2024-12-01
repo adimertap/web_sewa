@@ -124,6 +124,8 @@ Route::middleware('auth')->group(function () {
 
   Route::resource('sewa', SewaController::class)->parameters(['sewa' => 'id',]);
   Route::post('/sewa/pembayaran/{id}', [SewaController::class, 'TambahPembayaran'])->name('sewa.bayar');
+  Route::post('/sewa/selesai/{id}', [SewaController::class, 'Selesai'])->name('sewa.selesai');
+
   Route::get('/sewa/print/{id}', [SewaController::class, 'PrintSewa'])->name('sewa.print');
   Route::delete('/sewa/delete/pembayaran/{id}', [SewaController::class, 'DeletePembayaran'])->name('sewa.bayar.delete');
   Route::post('/sewa/update/pembayaran', [SewaController::class, 'UpdatePembayaran'])->name('sewa.bayar.update');

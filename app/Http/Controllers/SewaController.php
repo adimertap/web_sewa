@@ -42,6 +42,27 @@ class SewaController extends Controller
     return view('pages.Sewa.tambah', compact('jenis', 'dateNow'));
   }
 
+  public function Selesai($id)
+  {
+    try {
+      $tr = Transaksi::where('transaksi_id', $id)->first();
+      if (!$tr) {
+        Alert::warning('Warning', 'Data tidak ditemukan');
+        return redirect()->back();
+      }
+      DB::beginTransaction();
+      $tr->status = 'N';
+      $tr->update();
+      DB::commit();
+      
+      Alert::success('Success', 'Data Sewa Selesai');
+      return redirect()->back();
+    } catch (\Throwable $th) {
+      DB::rollBack();
+      return $th;
+    }
+  }
+
   public function TambahKenaikan(Request $request, $id)
   {
     try {

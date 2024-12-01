@@ -60,6 +60,15 @@ $configData = Helper::appClasses();
 
         </div>
         <div>
+          @if($item->status == 'A')
+          <a href="javascript:;" class="btn btn-primary" onclick="selesaiSewa({{ $item->transaksi_id }})">Selesai
+            Sewa</a>
+          <form id="selesai-sewa-{{ $item->transaksi_id }}" action="{{ route('sewa.selesai', $item->transaksi_id) }}"
+            method="POST" style="display: none;">
+            @csrf
+          </form>
+          @endif
+
           <a href="{{ route('sewa.edit', $item->transaksi_id) }}" class="btn btn-outline-secondary">
             <span class="d-flex align-items-center justify-content-center text-nowrap">
               <i class="mdi mdi-send-outline scaleX-n1-rtl me-1"></i>Edit Data
@@ -230,7 +239,7 @@ $configData = Helper::appClasses();
                 </div>
                 <div class="row mb-1">
                   <div class="col-5">
-                    <p class="mb-1 fw-medium">Jatuh Tempo Pembangunan</p>
+                    <p class="mb-1 fw-medium">Sudah Jatuh Tempo Pembayaran?</p>
                   </div>
                   <div class="col-7">
                     <p class="mb-1">: {{ $item->jatuh_tempo_pembangunan ?? '' }}</p>
@@ -1003,6 +1012,24 @@ $configData = Helper::appClasses();
       }
     });
   }
+  function selesaiSewa(itemId) {
+    Swal.fire({
+      title: 'Selesai Sewa',
+      text: "Apakah dokumen ini sudah selesai sewa?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya! Selesai'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Prevent default behavior and submit the delete form
+        event.preventDefault();
+        document.getElementById(`selesai-sewa-${itemId}`).submit();
+      }
+    });
+  }
+
 
   function modalTambahPembayaran() {
     $('#modalTambahBayar').modal('show')

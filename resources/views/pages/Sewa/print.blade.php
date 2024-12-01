@@ -170,7 +170,7 @@
     </div>
     <div class="row mb-1">
       <div class="col-4">
-        <p class="mb-1 fw-medium">Jatuh Tempo Pembangunan</p>
+        <p class="mb-1 fw-medium">Jatuh Tempo Pembayaran</p>
       </div>
       <div class="col-8">
         <p class="mb-1">: {{ $item->jatuh_tempo_pembangunan ?? '-' }}</p>

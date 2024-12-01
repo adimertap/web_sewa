@@ -76,7 +76,7 @@ class FilteredDataExport implements FromCollection, WithHeadings, ShouldAutoSize
       'peruntukan',
       'tahun peninjauan berikutnya',
       'jumlah bidang sewa keseluruhan',
-      'sudah jatuh tempo pembangunan/belum',
+      'sudah jatuh tempo pembayaran/belum',
       'jatuh tempo pembayaran',
       'sistem pembayaran',
       'jangka waktu mulai',

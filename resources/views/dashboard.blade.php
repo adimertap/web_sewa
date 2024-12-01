@@ -49,6 +49,56 @@ $configData = Helper::appClasses();
     </div>
   </div>
 </div>
+<div class="row mt-3">
+  <div class="col-lg-2 col-sm-12 mb-1">
+    <div class="card h-100">
+      <div class="card-body p-3">
+        <h5 class="mb-1">Sewa Sebagian</h5>
+        <p class="mb-0">Total : {{ $countSewaSebagian }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 col-sm-12 mb-1">
+    <div class="card h-100">
+      <div class="card-body p-3">
+        <h5 class="mb-1">Restitusi/belanja tidak terduga</h5>
+        <p class="mb-0">Total : {{ $countRestitusi }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 col-sm-12 mb-1">
+    <div class="card h-100">
+      <div class="card-body p-3">
+        <h5 class="mb-1">Sudah Diputus</h5>
+        <p class="mb-0">Total : {{ $countSudahDiputus }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 col-sm-12 mb-1">
+    <div class="card h-100">
+      <div class="card-body p-3">
+        <h5 class="mb-1">Belum Tuntas</h5>
+        <p class="mb-0">Total : {{ $countBelumTuntas }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 col-sm-12 mb-1">
+    <div class="card h-100">
+      <div class="card-body p-3">
+        <h5 class="mb-1">Kerjasama Pemanfaatan</h5>
+        <p class="mb-0">Total : {{ $countKerjasama }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-2 col-sm-12 mb-1">
+    <div class="card h-100">
+      <div class="card-body p-3">
+        <h5 class="mb-1">Sudah Bayar Batal Sewa</h5>
+        <p class="mb-0">Total : {{ $countSudahBayarBatal }}</p>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="card mt-3">
   <div class="card-header p-0">
     {{-- <div class="card-datatable">
