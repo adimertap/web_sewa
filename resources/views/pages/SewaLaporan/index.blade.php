@@ -79,9 +79,9 @@ $configData = Helper::appClasses();
       <div class="col-2">
         <select id="sistem_pembayaran" name="sistem_pembayaran" class="select2 form-select form-select-sm"
           data-allow-clear="true">
-          <option value="">Sistem Pembayaran</option>
-          @foreach ($sbayar as $sb)
-          <option value="{{ $sb }}" {{ request('sistem_pembayaran')==$sb ? 'selected' : '' }}>{{ $sb }}</option>
+          <option value="">Sistem Pembayaran</option> <!-- Default option without value -->
+          @foreach ($sbayar as $item)
+          <option value="{{ $item->sistem_id }}">{{ $item->sistem_pembayaran ?? '' }}</option>
           @endforeach
         </select>
       </div>
@@ -135,10 +135,10 @@ $configData = Helper::appClasses();
             <tr role="row" class="odd ">
               <td class="text-center">{{ $loop->iteration + $datas->firstItem() - 1 }}.</td>
               <td class="text-center">{{ $item->Jenis->jenis_nama }}</td>
-              <td class="text-center">{{ $item->tanggal_perjanjian }}</td>
+              <td class="text-center">{{ isset($item->Nomor[0]) ? $item->Nomor[0]->tanggal_perjanjian : '-' }}</td>
               <td class="text-center">{{ $item->kabupaten }}</td>
               <td class="text-center">{{ $item->nama_pengguna }}</td>
-              <td class="text-center">{{ $item->sistem_pembayaran }}</td>
+              <td class="text-center">{{ $item->SistemBayar->sistem_pembayaran ?? '-' }}</td>
               <td class="text-center">
                 <a href="{{ route('sewa.show', $item->transaksi_id) }}"
                   class="btn btn-sm  btn-text-primary rounded-pill waves-effect">
@@ -213,9 +213,9 @@ $configData = Helper::appClasses();
               <div class="col-12 mt-2">
                 <select id="sistem_pembayaran" name="sistem_pembayaran" class="select2 form-select form-select-lg"
                   data-allow-clear="true">
-                  <option value="">Sistem Pembayaran</option>
-                  @foreach ($sbayar as $sb)
-                  <option value="{{ $sb }}" {{ request('sistem_pembayaran')==$sb ? 'selected' : '' }}>{{ $sb }}</option>
+                  <option value="">Sistem Pembayaran</option> <!-- Default option without value -->
+                  @foreach ($sbayar as $item)
+                  <option value="{{ $item->sistem_id }}">{{ $item->sistem_pembayaran ?? '' }}</option>
                   @endforeach
                 </select>
               </div>

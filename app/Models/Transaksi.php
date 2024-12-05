@@ -60,7 +60,11 @@ class Transaksi extends Model
     'pekerjaan',
     'alamat',
     'nilai_per_pembayaran',
-    'subtotal_kenaikan_harga'
+    'subtotal_kenaikan_harga',
+
+    // New Version 2
+    'kecamatan',
+    'desa'
   ];
 
   // Kolom yang disembunyikan

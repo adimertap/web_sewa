@@ -44,6 +44,22 @@
     </div>
     <div class="row mb-1">
       <div class="col-4">
+        <p class="mb-1 fw-medium">Desa</p>
+      </div>
+      <div class="col-8">
+        <p class="mb-1">: {{ $item->desa ?? '-' }}</p>
+      </div>
+    </div>
+    <div class="row mb-1">
+      <div class="col-4">
+        <p class="mb-1 fw-medium">Kecamatan</p>
+      </div>
+      <div class="col-8">
+        <p class="mb-1">: {{ $item->kecamatan ?? '-' }}</p>
+      </div>
+    </div>
+    <div class="row mb-1">
+      <div class="col-4">
         <p class="mb-1 fw-medium">Kabupaten/Kota</p>
       </div>
       <div class="col-8">

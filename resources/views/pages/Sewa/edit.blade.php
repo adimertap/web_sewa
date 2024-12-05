@@ -155,20 +155,34 @@ $configData = Helper::appClasses();
         <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
+              <input type="text" class="form-control" id="desa" name="desa" placeholder="Input Desa"
+                value="{{ $item->desa }}" />
+              <label for="desa">Desa</label>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <div class="form-floating form-floating-outline mb-3">
+              <input type="text" class="form-control" id="kecamatan" name="kecamatan" placeholder="Kecamatan"
+                value="{{ $item->kecamatan }}" />
+              <label for="kecamatan">Kecamatan</label>
+            </div>
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten / Kota"
                 value="{{ $item->kabupaten }}" />
               <label for="kabupaten">Kabupaten / Kota </label>
             </div>
           </div>
-          <div class="col-lg-8 col-sm-6">
+        </div>
+        <div class="mt-1">
+          <div class="col-lg-12 col-sm-6 mb-1">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control form-control-sm" id="lokasi" name="lokasi" placeholder="Lokasi"
                 value="{{ $item->lokasi }}" />
               <label for="lokasi">Lokasi </label>
             </div>
           </div>
-        </div>
-        <div class="mt-1">
           <div class="col-lg-12 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control form-control-sm" value="{{ $item->peruntukan }}" id="peruntukan"

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\FilteredDataExport;
 use Alert;
+use App\Models\MasterSistemBayar;
 
 class LaporanSewaController extends Controller
 {
@@ -27,7 +28,7 @@ class LaporanSewaController extends Controller
       $jangkaWaktu = $request->input('jangka_waktu');
 
       // Query with filters
-      $query = Transaksi::with('Jenis')->orderBy('transaksi_id', 'DESC');
+      $query = Transaksi::with('Jenis', 'Nomor', 'SistemBayar')->orderBy('transaksi_id', 'DESC');
 
       if ($jenisId) {
         $query->where('jenis_id', $jenisId);
@@ -36,7 +37,7 @@ class LaporanSewaController extends Controller
         $query->where('kabupaten', $kabupaten);
       }
       if ($sistemPembayaran) {
-        $query->where('sistem_pembayaran', $sistemPembayaran);
+        $query->where('sistem_id', $sistemPembayaran);
       }
       if ($lokasi) {
         $query->where('lokasi', $lokasi);
@@ -49,10 +50,10 @@ class LaporanSewaController extends Controller
 
       // Populate dropdown options
       $kab = Transaksi::select('kabupaten')->distinct()->orderBy('kabupaten', 'ASC')->pluck('kabupaten')->toArray();
-      $sbayar = Transaksi::select('sistem_pembayaran')->distinct()->orderBy('sistem_pembayaran', 'ASC')->pluck('sistem_pembayaran')->toArray();
       $sertif = Transaksi::select('sertipikat')->distinct()->orderBy('sertipikat', 'ASC')->pluck('sertipikat')->toArray();
       $lokasi = Transaksi::select('lokasi')->distinct()->orderBy('lokasi', 'ASC')->pluck('lokasi')->toArray();
       $waktuSewa = Transaksi::select('jangka_waktu_kerjasama')->distinct()->orderBy('jangka_waktu_kerjasama', 'ASC')->pluck('jangka_waktu_kerjasama')->toArray();
+      $sbayar = MasterSistemBayar::all();
 
       return view('pages.SewaLaporan.index', compact('jenis', 'datas', 'kab', 'sbayar', 'sertif', 'lokasi', 'waktuSewa'));
     } catch (\Throwable $th) {
@@ -132,7 +133,7 @@ class LaporanSewaController extends Controller
         $query->where('kabupaten', $kabupaten);
       })
       ->when($sistemPembayaran, function ($query) use ($sistemPembayaran) {
-        $query->where('sistem_pembayaran', $sistemPembayaran);
+        $query->where('sistem_id', $sistemPembayaran);
       })
       ->when($lokasi, function ($query) use ($lokasi) {
         $query->where('lokasi', $lokasi);
@@ -147,9 +148,6 @@ class LaporanSewaController extends Controller
       Alert::warning('Warning', 'Data tidak ditemukan');
       return redirect()->back();
     }
-
-
-
     // Determine min and max years for Pembayaran
     $minPembayaranYear = $tr->flatMap(function ($item) {
       return $item->Pembayaran->pluck('pembayaran_tahun');
@@ -194,6 +192,8 @@ class LaporanSewaController extends Controller
         'kontribusi_awal' => $item->kontribusi_awal,
         'keterangan' => $item->keterangan,
         'kabupaten' => $item->kabupaten,
+        'kecamatan' => $item->kecamatan,
+        'desa' => $item->desa,
       ];
 
       // Add Kenaikan data dynamically

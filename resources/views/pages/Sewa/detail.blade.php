@@ -346,6 +346,30 @@ $configData = Helper::appClasses();
                 </div>
                 <div class="row mb-1">
                   <div class="col-4">
+                    <p class="mb-1 fw-medium">Lokasi</p>
+                  </div>
+                  <div class="col-8">
+                    <p class="mb-1">: {{ $item->lokasi }}</p>
+                  </div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-4">
+                    <p class="mb-1 fw-medium">Desa & Kecamatan</p>
+                  </div>
+                  <div class="col-8">
+                    <p class="mb-1">: Desa {{ $item->desa ?? '' }}, Kec {{ $item->kecamatan }}</p>
+                  </div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-4">
+                    <p class="mb-1 fw-medium">Kabupaten</p>
+                  </div>
+                  <div class="col-8">
+                    <p class="mb-1">: {{ $item->kabupaten }}</p>
+                  </div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-4">
                     <p class="mb-1 fw-medium">Kode Barang</p>
                   </div>
                   <div class="col-8">
@@ -374,14 +398,6 @@ $configData = Helper::appClasses();
                   </div>
                   <div class="col-8">
                     <p class="mb-1">: {{ $item->jumlah_bidang_sewa_keseluruhan }}</p>
-                  </div>
-                </div>
-                <div class="row mb-1">
-                  <div class="col-4">
-                    <p class="mb-1 fw-medium">Lokasi</p>
-                  </div>
-                  <div class="col-8">
-                    <p class="mb-1">: {{ $item->lokasi }}</p>
                   </div>
                 </div>
               </div>

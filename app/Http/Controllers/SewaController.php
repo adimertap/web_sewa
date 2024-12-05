@@ -399,7 +399,9 @@ class SewaController extends Controller
         'keterangan' => $request->keterangan,
         'jenis_id' => $jenis->jenis_id,
         'jatuh_tempo_pembangunan' => $jatuhTempoPembangunan, // Store the radio button value
-        'jatuh_tempo_pembayaran' => $request->jatuh_tempo_pembayaran
+        'jatuh_tempo_pembayaran' => $request->jatuh_tempo_pembayaran,
+        'kecamatan' => $request->kecamatan,
+        'desa' => $request->desa
       ];
 
       $transaksi = Transaksi::create($transaksiData);
@@ -564,6 +566,8 @@ class SewaController extends Controller
       $datas['besar_sewa_per'] = $request->besar_sewa_per;
       $datas['kontribusi_awal'] = $kontribusi_awal;
       $datas['kabupaten'] = $request->kabupaten;
+      $datas['kecamatan'] = $request->kecamatan;
+      $datas['desa'] = $request->desa;
       $datas['keterangan'] = $request->keterangan;
       $datas['jenis_id'] = $request->jenis_id;
       $datas->update();
