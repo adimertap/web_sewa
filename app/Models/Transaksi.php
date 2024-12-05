@@ -20,6 +20,7 @@ class Transaksi extends Model
   // Kolom yang dapat diisi secara mass-assignment
   protected $fillable = [
     'jenis_id',
+    'sistem_id',
     'lokasi',
     'nomor_perjanjian',
     'tanggal_perjanjian',
@@ -74,6 +75,10 @@ class Transaksi extends Model
   {
     return $this->BelongsTo(JenisSewa::class, 'jenis_id', 'jenis_id');
   }
+  public function SistemBayar(): BelongsTo
+  {
+    return $this->BelongsTo(MasterSistemBayar::class, 'sistem_id', 'sistem_id');
+  }
   public function Pembayaran(): HasMany
   {
     return $this->hasMany(Pembayaran::class, 'transaksi_id', 'transaksi_id')->orderBy('pembayaran_tahun', 'asc');;
@@ -85,5 +90,9 @@ class Transaksi extends Model
   public function Kenaikan(): HasMany
   {
     return $this->hasMany(Kenaikan::class, 'transaksi_id', 'transaksi_id');
+  }
+  public function Nomor(): HasMany
+  {
+    return $this->hasMany(TransaksiNomor::class, 'transaksi_id', 'transaksi_id');
   }
 }

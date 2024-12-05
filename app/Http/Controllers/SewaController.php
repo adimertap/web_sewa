@@ -7,9 +7,11 @@ use Alert;
 use Carbon\Carbon;
 use App\Models\JenisSewa;
 use App\Models\Kenaikan;
+use App\Models\MasterSistemBayar;
 use App\Models\Pembayaran;
 use App\Models\Transaksi;
 use App\Models\TransaksiFile;
+use App\Models\TransaksiNomor;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use PhpParser\Node\Stmt\TryCatch;
@@ -32,6 +34,9 @@ class SewaController extends Controller
   {
     $query = $request->query('jenis'); // Get the 'jenis' query parameter
     $jenis = JenisSewa::find($query);
+
+    $sistem = MasterSistemBayar::get();
+
     $currentDate = Carbon::now(); // Gets the current date and time
     $dateNow = Carbon::now()->toDateString(); // Formats it to 'YYYY-MM-DD'
     if (!$jenis) {
@@ -39,7 +44,7 @@ class SewaController extends Controller
       return redirect()->back();
     }
 
-    return view('pages.Sewa.tambah', compact('jenis', 'dateNow'));
+    return view('pages.Sewa.tambah', compact('jenis', 'dateNow', 'sistem'));
   }
 
   public function Selesai($id)
@@ -54,8 +59,76 @@ class SewaController extends Controller
       $tr->status = 'N';
       $tr->update();
       DB::commit();
-      
+
       Alert::success('Success', 'Data Sewa Selesai');
+      return redirect()->back();
+    } catch (\Throwable $th) {
+      DB::rollBack();
+      return $th;
+    }
+  }
+
+  public function TambahNomor(Request $request, $id)
+  {
+    try {
+      $check = Transaksi::where('transaksi_id', $id)->first();
+      if (!$check) {
+        Alert::warning('Warning', 'Data tidak ditemukan');
+        return redirect()->back();
+      }
+
+      DB::beginTransaction();
+      $data = new TransaksiNomor();
+      $data->transaksi_id = $id;
+      $data->nomor_perjanjian = $request->nomor_perjanjian;
+      $data->tanggal_perjanjian = $request->tanggal_perjanjian;
+      $data->save();
+
+      DB::commit();
+      Alert::success('Success', 'Data Nomor Perjanjian Berhasil ditambahkan');
+      return redirect()->back();
+    } catch (\Throwable $th) {
+      DB::rollBack();
+      return $th;
+    }
+  }
+
+  public function DeleteNomor($id)
+  {
+    try {
+      DB::beginTransaction();
+      $tr = TransaksiNomor::find($id);
+      if (!$tr) {
+        Alert::warning('Warning', 'Internal Server Error');
+        return redirect()->back();
+      }
+      $tr->delete();
+      DB::commit();
+
+      Alert::success('Success', 'Data Nomor Perjanjian Berhasil Dihapus');
+      return redirect()->back();
+    } catch (\Throwable $th) {
+      DB::rollBack();
+      Alert::warning('Warning', 'Internal Server Error');
+      return redirect()->back();
+    }
+  }
+  public function UpdateNomor(Request $request)
+  {
+    try {
+      $tr = TransaksiNomor::find($request->transaksi_nomor_id);
+      if (!$tr) {
+        Alert::warning('Warning', 'Internal Server Error');
+        return redirect()->back();
+      }
+
+      DB::beginTransaction();
+      $tr->nomor_perjanjian = $request->nomor_perjanjian_m;
+      $tr->tanggal_perjanjian = $request->tanggal_perjanjian_m;
+      $tr->update();
+      DB::commit();
+
+      Alert::success('Success', 'Data Kenaikan Berhasil Diupdate');
       return redirect()->back();
     } catch (\Throwable $th) {
       DB::rollBack();
@@ -77,11 +150,14 @@ class SewaController extends Controller
         Alert::warning('Warning', 'Data Kenaikan Tahun tersebut sudah Ada');
         return redirect()->back();
       }
+      $besaran = preg_replace('/\./', '', $request->besaran); // Remove the period separator
+      $besaran = floatval($besaran); // Convert to float
+
       DB::beginTransaction();
       $data = new Kenaikan();
       $data->transaksi_id = $id;
       $data->tahun_ke = $request->tahun_ke;
-      $data->besaran = $request->besaran;
+      $data->besaran = $besaran;
       $data->save();
 
       DB::commit();
@@ -112,7 +188,6 @@ class SewaController extends Controller
       return redirect()->back();
     }
   }
-
   public function TambahPembayaran(Request $request, $id)
   {
     try {
@@ -127,12 +202,16 @@ class SewaController extends Controller
         Alert::warning('Warning', 'Data Pembayaran Tahun tersebut sudah Ada');
         return redirect()->back();
       }
+
+      $nominal = preg_replace('/\./', '', $request->nominal); // Remove the period separator
+      $nominal = floatval($nominal); // Convert to float
+
       DB::beginTransaction();
       $data = new Pembayaran();
       $data->transaksi_id = $id;
       $data->pembayaran_tahun = $request->pembayaran_tahun;
       $data->pembayaran_tanggal = $request->pembayaran_tanggal;
-      $data->nominal = $request->nominal;
+      $data->nominal = $nominal;
       $data->keterangan = $request->keterangan;
       $data->save();
 
@@ -144,7 +223,6 @@ class SewaController extends Controller
       return $th;
     }
   }
-
   public function DeletePembayaran($id)
   {
     try {
@@ -165,7 +243,6 @@ class SewaController extends Controller
       return redirect()->back();
     }
   }
-
   public function UpdateKenaikan(Request $request)
   {
     try {
@@ -175,9 +252,12 @@ class SewaController extends Controller
         return redirect()->back();
       }
 
+      $besaran = preg_replace('/\./', '', $request->besaran); // Remove the period separator
+      $besaran = floatval($besaran); // Convert to float
+
       DB::beginTransaction();
       $tr->tahun_ke = $request->tahun_ke;
-      $tr->besaran = $request->besaran;
+      $tr->besaran = $besaran;
       $tr->update();
       DB::commit();
 
@@ -188,7 +268,6 @@ class SewaController extends Controller
       return $th;
     }
   }
-
   public function UpdatePembayaran(Request $request)
   {
     try {
@@ -198,10 +277,13 @@ class SewaController extends Controller
         return redirect()->back();
       }
 
+      $nominal = preg_replace('/\./', '', $request->nominal); // Remove the period separator
+      $nominal = floatval($nominal); // Convert to float
+
       DB::beginTransaction();
       $tr->pembayaran_tahun = $request->pembayaran_tahun;
       $tr->pembayaran_tanggal = $request->pembayaran_tanggal;
-      $tr->nominal = $request->nominal;
+      $tr->nominal = $nominal;
       $tr->keterangan = $request->keterangan;
       $tr->update();
       DB::commit();
@@ -267,6 +349,7 @@ class SewaController extends Controller
   public function store(Request $request)
   {
     try {
+      $jatuhTempoPembangunan = $request->input('jatuh_tempo_pembangunan');
       $jenis = JenisSewa::where('jenis_nama', $request->jenis_id)->first();
       $findSame = Transaksi::where('nomor_perjanjian', $request->nomor_perjanjian)
         ->where('jenis_id', $jenis->jenis_id)
@@ -276,59 +359,81 @@ class SewaController extends Controller
         return redirect()->back();
       }
 
-      //Begin Transaction
+      $besar_sewa = preg_replace('/\./', '', $request->besar_sewa); // Remove the period separator
+      $besar_sewa = floatval($besar_sewa); // Convert to float
+      $kontribusi_awal = preg_replace('/\./', '', $request->kontribusi_awal); // Remove the period separator
+      $kontribusi_awal = floatval($kontribusi_awal); // Convert to float
+
       DB::beginTransaction();
-      $transaksiData['lokasi'] = $request->lokasi;
-      $transaksiData['nomor_perjanjian'] = $request->nomor_perjanjian;
-      $transaksiData['tanggal_perjanjian'] = $request->tanggal_perjanjian;
-      $transaksiData['nomor_tanggal_perjanjian'] = $request->nomor_perjanjian && $request->tanggal_perjanjian;
-      $transaksiData['nomor_kode_barang'] = $request->nomor_kode_barang;
-      $transaksiData['nomor_register'] = $request->nomor_register;
-      $transaksiData['sertipikat'] = $request->sertipikat;
-      $transaksiData['jumlah_bidang_sewa_bagian'] = $request->jumlah_bidang_sewa_bagian;
-      $transaksiData['luas_total_sertipikat'] = $request->luas_total_sertipikat;
-      $transaksiData['luas_yang_disewa'] = $request->luas_yang_disewa;
-      $transaksiData['nama_pengguna'] = $request->nama_pengguna;
-      $transaksiData['nomor_telepon'] = $request->nomor_telepon;
-      $transaksiData['email'] = $request->email;
-      $transaksiData['NIK'] = $request->NIK;
-      $transaksiData['umur'] = $request->umur;
-      $transaksiData['pekerjaan'] = $request->pekerjaan;
-      $transaksiData['alamat'] = $request->alamat;
-      $transaksiData['peruntukan'] = $request->peruntukan;
-      $transaksiData['jangka_waktu_kerjasama'] = $request->jangka_waktu_kerjasama;
-      $transaksiData['tahun_peninjauan_berikutnya'] = $request->tahun_peninjauan_berikutnya;
-      $transaksiData['jumlah_bidang_sewa_keseluruhan'] = $request->jumlah_bidang_sewa_keseluruhan;
-      $transaksiData['sistem_pembayaran'] = $request->sistem_pembayaran;
-      $transaksiData['sistem_pembayaran_ket'] = $request->sistem_pembayaran_ket;
-      $transaksiData['jangka_waktu_mulai'] = $request->jangka_waktu_mulai;
-      $transaksiData['jangka_waktu_selesai'] = $request->jangka_waktu_selesai;
-      $transaksiData['besar_sewa'] = $request->besar_sewa;
-      $transaksiData['besar_sewa_per'] = $request->besar_sewa_per;
-      $transaksiData['kontribusi_awal'] = $request->kontribusi_awal;
-      $transaksiData['kabupaten'] = $request->kabupaten;
-      $transaksiData['status'] = "A";
-      $transaksiData['keterangan'] = $request->keterangan;
-      $transaksiData['jenis_id'] = $jenis->jenis_id;
+      $transaksiData = [
+        'lokasi' => $request->lokasi,
+        'nomor_perjanjian' => $request->nomor_perjanjian,
+        'tanggal_perjanjian' => $request->tanggal_perjanjian,
+        'nomor_tanggal_perjanjian' => $request->nomor_perjanjian && $request->tanggal_perjanjian,
+        'nomor_kode_barang' => $request->nomor_kode_barang,
+        'nomor_register' => $request->nomor_register,
+        'sertipikat' => $request->sertipikat,
+        'jumlah_bidang_sewa_bagian' => $request->jumlah_bidang_sewa_bagian,
+        'luas_total_sertipikat' => $request->luas_total_sertipikat,
+        'luas_yang_disewa' => $request->luas_yang_disewa,
+        'nama_pengguna' => $request->nama_pengguna,
+        'nomor_telepon' => $request->nomor_telepon,
+        'email' => $request->email,
+        'NIK' => $request->NIK,
+        'umur' => $request->umur,
+        'pekerjaan' => $request->pekerjaan,
+        'alamat' => $request->alamat,
+        'peruntukan' => $request->peruntukan,
+        'jangka_waktu_kerjasama' => $request->jangka_waktu_kerjasama,
+        'tahun_peninjauan_berikutnya' => $request->tahun_peninjauan_berikutnya,
+        'jumlah_bidang_sewa_keseluruhan' => $request->jumlah_bidang_sewa_keseluruhan,
+        'sistem_id' => $request->sistem_id,
+        'sistem_pembayaran_ket' => $request->sistem_pembayaran_ket,
+        'jangka_waktu_mulai' => $request->jangka_waktu_mulai,
+        'jangka_waktu_selesai' => $request->jangka_waktu_selesai,
+        'besar_sewa' => $besar_sewa,
+        'besar_sewa_per' => $request->besar_sewa_per,
+        'kontribusi_awal' => $kontribusi_awal,
+        'kabupaten' => $request->kabupaten,
+        'status' => "A",
+        'keterangan' => $request->keterangan,
+        'jenis_id' => $jenis->jenis_id,
+        'jatuh_tempo_pembangunan' => $jatuhTempoPembangunan, // Store the radio button value
+        'jatuh_tempo_pembayaran' => $request->jatuh_tempo_pembayaran
+      ];
 
       $transaksi = Transaksi::create($transaksiData);
       foreach ($request->input('group-a') as $item) {
+        $nominal = preg_replace('/\./', '', $item['nominal']); // Remove the period separator
+        $nominal = floatval($nominal); // Convert to float
+
         Pembayaran::create([
           'transaksi_id' => $transaksi->transaksi_id,
           'pembayaran_tahun' => $item['pembayaran_tahun'],
-          'nominal' => $item['nominal'],
+          'nominal' => $nominal,
           'pembayaran_tanggal' => $item['pembayaran_tanggal'],
-          'keterangan' => $item['keterangan'],
+          'keterangan' => $item['ket'],
           'status' => 'A'
+        ]);
+      }
+
+      foreach ($request->input('nomor-a') as $item) {
+        TransaksiNomor::create([
+          'transaksi_id' => $transaksi->transaksi_id,
+          'nomor_perjanjian' => $item['nomor_perjanjian'],
+          'tanggal_perjanjian' => $item['tanggal_perjanjian']
         ]);
       }
 
 
       foreach ($request->input('kenaikan-a') as $item) {
+        $besaran = preg_replace('/\./', '', $item['besaran']); // Remove the period separator
+        $besaran = floatval($besaran); // Convert to float
+
         Kenaikan::create([
           'transaksi_id' => $transaksi->transaksi_id,
           'tahun_ke' => $item['tahun_ke'],
-          'besaran' => $item['besaran'],
+          'besaran' => $besaran,
           'status' => 'A'
         ]);
       }
@@ -348,7 +453,7 @@ class SewaController extends Controller
 
       // return $request->all();
       Alert::success('Success', 'Data Berhasil ditambahkan');
-      return redirect()->route('sewa.index');
+      return redirect()->route('dashboard');
     } catch (\Throwable $th) {
       DB::rollBack();
       return $th;
@@ -361,7 +466,7 @@ class SewaController extends Controller
   public function show(string $id)
   {
     try {
-      $item = Transaksi::with('Jenis', 'Pembayaran', 'File', 'Kenaikan')->find($id);
+      $item = Transaksi::with('Jenis', 'Pembayaran', 'File', 'Kenaikan', 'Nomor', 'SistemBayar')->find($id);
       if (!$item) {
         Alert::warning('Warning', 'Transaksi Sewa Tidak Ditemukan');
         return redirect()->back();
@@ -380,7 +485,7 @@ class SewaController extends Controller
   public function PrintSewa(string $id)
   {
     try {
-      $item = Transaksi::with('Jenis', 'Pembayaran', 'Kenaikan')->find($id);
+      $item = Transaksi::with('Jenis', 'Pembayaran', 'Kenaikan', 'SistemBayar', 'Nomor')->find($id);
       if (!$item) {
         Alert::warning('Warning', 'Transaksi Sewa Tidak Ditemukan');
         return redirect()->back();
@@ -400,11 +505,13 @@ class SewaController extends Controller
     try {
       $item = Transaksi::with('Pembayaran', 'File', 'Jenis')->where('transaksi_id', $id)->first();
       $jenis = JenisSewa::get();
+      $sistem = MasterSistemBayar::get();
+
       if (!$item) {
         Alert::warning('Warning', 'Transaksi Sewa Tidak Ditemukan');
         return redirect()->back();
       }
-      return view('pages.Sewa.edit', compact('item', 'jenis'));
+      return view('pages.Sewa.edit', compact('item', 'jenis', 'sistem'));
     } catch (\Throwable $th) {
       Alert::warning('Warning', 'Internal Server Error');
       return redirect()->back();
@@ -422,11 +529,14 @@ class SewaController extends Controller
         Alert::warning('Warning', 'Transaksi Sewa Tidak Ditemukan');
         return redirect()->back();
       }
-      //Begin Transaction
+      $besar_sewa = preg_replace('/\./', '', $request->besar_sewa); // Remove the period separator
+      $besar_sewa = floatval($besar_sewa); // Convert to float
+      $kontribusi_awal = preg_replace('/\./', '', $request->kontribusi_awal); // Remove the period separator
+      $kontribusi_awal = floatval($kontribusi_awal); // Convert to float
+      $jatuhTempoPembangunan = $request->input('jatuh_tempo_pembangunan');
+
       DB::beginTransaction();
       $datas['lokasi'] = $request->lokasi;
-      $datas['nomor_perjanjian'] = $request->nomor_perjanjian;
-      $datas['tanggal_perjanjian'] = $request->tanggal_perjanjian;
       $datas['nomor_tanggal_perjanjian'] = $request->nomor_perjanjian && $request->tanggal_perjanjian;
       $datas['nomor_kode_barang'] = $request->nomor_kode_barang;
       $datas['nomor_register'] = $request->nomor_register;
@@ -441,17 +551,18 @@ class SewaController extends Controller
       $datas['umur'] = $request->umur;
       $datas['pekerjaan'] = $request->pekerjaan;
       $datas['alamat'] = $request->alamat;
+      $datas['jatuh_tempo_pembangunan'] = $jatuhTempoPembangunan;
       $datas['peruntukan'] = $request->peruntukan;
       $datas['jangka_waktu_kerjasama'] = $request->jangka_waktu_kerjasama;
       $datas['tahun_peninjauan_berikutnya'] = $request->tahun_peninjauan_berikutnya;
       $datas['jumlah_bidang_sewa_keseluruhan'] = $request->jumlah_bidang_sewa_keseluruhan;
-      $datas['sistem_pembayaran'] = $request->sistem_pembayaran;
+      $datas['sistem_pembayaran'] = $request->sistem_id;
       $datas['sistem_pembayaran_ket'] = $request->sistem_pembayaran_ket;
       $datas['jangka_waktu_mulai'] = $request->jangka_waktu_mulai;
       $datas['jangka_waktu_selesai'] = $request->jangka_waktu_selesai;
-      $datas['besar_sewa'] = $request->besar_sewa;
+      $datas['besar_sewa'] = $besar_sewa;
       $datas['besar_sewa_per'] = $request->besar_sewa_per;
-      $datas['kontribusi_awal'] = $request->kontribusi_awal;
+      $datas['kontribusi_awal'] = $kontribusi_awal;
       $datas['kabupaten'] = $request->kabupaten;
       $datas['keterangan'] = $request->keterangan;
       $datas['jenis_id'] = $request->jenis_id;

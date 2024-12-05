@@ -7,6 +7,7 @@ use App\Models\JenisSewa;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -20,7 +21,13 @@ class DashboardController extends Controller
       $countBelumTuntas = Transaksi::where('jenis_id', 4)->count();
       $countKerjasama = Transaksi::where('jenis_id', 5)->count();
       $countSudahBayarBatal = Transaksi::where('jenis_id', 6)->count();
-      $datas = Transaksi::with('Jenis')->where('status', 'A')->orderBy('transaksi_id', 'DESC')->get();
+      $datas = Transaksi::with('Jenis', 'SistemBayar', 'Nomor')->where('status', 'A')->orderBy('transaksi_id', 'DESC')->get();
+
+
+
+      $now = date('Y-m-d'); // Get the current date as 'YYYY-MM-DD'
+      $jatuhTempo = Transaksi::where('jatuh_tempo_pembayaran', $now)->get();
+      $countJatuhTempo = $jatuhTempo->count();
 
       return view('dashboard', compact(
         'jenis',
@@ -30,7 +37,9 @@ class DashboardController extends Controller
         'countSudahDiputus',
         'countBelumTuntas',
         'countKerjasama',
-        'countSudahBayarBatal'
+        'countSudahBayarBatal',
+        'countJatuhTempo',
+        'jatuhTempo'
       ));
     } catch (\Throwable $th) {
       return $th;

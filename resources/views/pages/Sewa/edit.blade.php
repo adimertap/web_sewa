@@ -7,7 +7,7 @@ $configData = Helper::appClasses();
 @endphp
 @extends('layouts/layoutMaster')
 
-@section('title', 'Tambah')
+@section('title', 'Edit')
 @section('vendor-style')
 {{--
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/swiper/swiper.scss')}}" /> --}}
@@ -79,28 +79,11 @@ $configData = Helper::appClasses();
         <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
-              <input type="text" class="form-control" id="nomor_perjanjian" name="nomor_perjanjian"
-                placeholder="Nomor Perjanjian Sewa" value="{{ $item->nomor_perjanjian }}" />
-              <label for="nomor_perjanjian">Nomor Perjanjian Sewa </label>
-            </div>
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <div class="form-floating form-floating-outline mb-3">
-              <input type="date" class="form-control" id="tanggal_perjanjian" name="tanggal_perjanjian"
-                placeholder="Tanggal Perjanjian Sewa" value="{{ $item->tanggal_perjanjian }}" />
-              <label for="tanggal_perjanjian">Tanggal Perjanjian Sewa </label>
-            </div>
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nomor_kode_barang" name="nomor_kode_barang"
                 placeholder="Kode Barang" value="{{ $item->nomor_kode_barang }}" />
               <label for="nomor_kode_barang">Kode Barang </label>
             </div>
           </div>
-        </div>
-
-        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nomor_register" name="nomor_register"
@@ -115,6 +98,9 @@ $configData = Helper::appClasses();
               <label for="sertipikat">Sertifikat </label>
             </div>
           </div>
+        </div>
+
+        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="jumlah_bidang_sewa_bagian" name="jumlah_bidang_sewa_bagian"
@@ -123,9 +109,6 @@ $configData = Helper::appClasses();
                   style="color: red">*</span></label>
             </div>
           </div>
-        </div>
-
-        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="luas_total_sertipikat" name="luas_total_sertipikat"
@@ -140,6 +123,9 @@ $configData = Helper::appClasses();
               <label for="luas_yang_disewa">Luas yang Disewa </label>
             </div>
           </div>
+        </div>
+
+        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="jumlah_bidang_sewa_keseluruhan"
@@ -147,25 +133,6 @@ $configData = Helper::appClasses();
                 value="{{ $item->jumlah_bidang_sewa_keseluruhan }}" />
               <label for="jumlah_bidang_sewa_keseluruhan">Jumlah Bidang Sewa Keseluruhan <span
                   style="color: red">*</span></label>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-1">
-          <div class="col-lg-12 col-sm-6">
-            <div class="form-floating form-floating-outline mb-3">
-              <input type="text" class="form-control form-control-sm" id="lokasi" name="lokasi" placeholder="Lokasi"
-                value="{{ $item->lokasi }}" />
-              <label for="lokasi">Lokasi </label>
-            </div>
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="col-lg-4 col-sm-6">
-            <div class="form-floating form-floating-outline mb-3">
-              <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten / Kota"
-                value="{{ $item->kabupaten }}" />
-              <label for="kabupaten">Kabupaten / Kota </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
@@ -184,8 +151,30 @@ $configData = Helper::appClasses();
                   style="color: red">*</span></label>
             </div>
           </div>
+        </div>
+        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
-
+            <div class="form-floating form-floating-outline mb-3">
+              <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten / Kota"
+                value="{{ $item->kabupaten }}" />
+              <label for="kabupaten">Kabupaten / Kota </label>
+            </div>
+          </div>
+          <div class="col-lg-8 col-sm-6">
+            <div class="form-floating form-floating-outline mb-3">
+              <input type="text" class="form-control form-control-sm" id="lokasi" name="lokasi" placeholder="Lokasi"
+                value="{{ $item->lokasi }}" />
+              <label for="lokasi">Lokasi </label>
+            </div>
+          </div>
+        </div>
+        <div class="mt-1">
+          <div class="col-lg-12 col-sm-6">
+            <div class="form-floating form-floating-outline mb-3">
+              <input type="text" class="form-control form-control-sm" value="{{ $item->peruntukan }}" id="peruntukan"
+                name="peruntukan" placeholder="Peruntukan" />
+              <label for="peruntukan">Peruntukan </label>
+            </div>
           </div>
         </div>
         {{------------ IDENTITAS ----------------------------------------------------------------- IDENTITAS --}}
@@ -248,35 +237,27 @@ $configData = Helper::appClasses();
               <label for="alamat">Alamat Lengkap </label>
             </div>
           </div>
-
-          <div class="mt-1">
-            <div class="col-lg-12 col-sm-6">
-              <div class="form-floating form-floating-outline mb-3">
-                <input type="text" class="form-control form-control-sm" value="{{ $item->peruntukan }}" id="peruntukan"
-                  name="peruntukan" placeholder="Peruntukan" />
-                <label for="peruntukan">Peruntukan </label>
-              </div>
-            </div>
-          </div>
           {{------------ PEMBAYARAN ----------------------------------------------------------------- PEMBAYARAN --}}
           <h6 class="mt-5 text-primary">4. Jatuh Tempo dan Pembayaran</h6>
           <hr class="my-4 mx-n4">
           <div class="row">
             <div class="col-lg-8 col-sm-6">
-              {{-- <label class="form-check-label">Sudah Jatuh Tempo Pembangunan / Belum</label> --}}
               <div class="col mt-2">
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" id="jatuh_tempo_pembangunan_belum"
-                    value="{{ $item->jatuh_tempo_pembangunan_belum }}" name="jatuh_tempo_pembangunan" value="belum"
-                    checked />
-                  <label class="form-check-label" for="jatuh_tempo_pembangunan_belum">Belum Jatuh Tempo
-                    Pembayaran</label>
+                    name="jatuh_tempo_pembangunan" value="belum" {{ $item->jatuh_tempo_pembangunan=== 'belum' ?
+                  'checked' : '' }} />
+                  <label class="form-check-label" for="jatuh_tempo_pembangunan_belum">
+                    Belum Jatuh Tempo Pembayaran
+                  </label>
                 </div>
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" id="jatuh_tempo_pembangunan_sudah"
-                    name="jatuh_tempo_pembangunan" value="sudah" value="{{ $item->jatuh_tempo_pembangunan_belum }}" />
-                  <label class="form-check-label" for="jatuh_tempo_pembangunan_sudah">Sudah Jatuh Tempo
-                    Pembayaran</label>
+                    name="jatuh_tempo_pembangunan" value="sudah" {{ $item->jatuh_tempo_pembangunan=== 'sudah' ?
+                  'checked' : '' }} />
+                  <label class="form-check-label" for="jatuh_tempo_pembangunan_sudah">
+                    Sudah Jatuh Tempo Pembayaran
+                  </label>
                 </div>
               </div>
             </div>
@@ -293,9 +274,13 @@ $configData = Helper::appClasses();
           <div class="row mt-2">
             <div class="col-lg-4 col-sm-6">
               <div class="form-floating form-floating-outline mb-3">
-                <input type="text" class="form-control" value="{{ $item->sistem_pembayaran }}" id="sistem_pembayaran"
-                  name="sistem_pembayaran" placeholder="Sistem Pembayaran" />
-                <label for="sistem_pembayaran">Sistem Pembayaran </label>
+                <select id="sistem_id" name="sistem_id" class="select2 form-select form-select" data-allow-clear="true">
+                  <option value="{{ $item->sistem_id }}">{{ $item->SistemBayar->sistem_pembayaran ?? '' }}</option>
+                  <!-- Default option without value -->
+                  @foreach ($sistem as $sts)
+                  <option value="{{ $sts->sistem_id }}">{{ $sts->sistem_pembayaran ?? '' }}</option>
+                  @endforeach
+                </select>
               </div>
             </div>
             <div class="col-lg-4 col-sm-6">
@@ -319,16 +304,17 @@ $configData = Helper::appClasses();
               <div class="input-group input-group-merge">
                 <span class="input-group-text">Rp.</span>
                 <div class="form-floating form-floating-outline">
-                  <input type="number" class="form-control" placeholder="Besaran Sewa (Number)" id="besar_sewa"
-                    name="besar_sewa" value="{{ $item->besar_sewa }}" />
+                  <input type="text" class="form-control" placeholder="Besaran Sewa (Number)" id="besar_sewa"
+                    name="besar_sewa" value="{{ number_format($item->besar_sewa, 0, ',', '.') }}"
+                    oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)" />
                   <label>Besaran Sewa </label>
                 </div>
               </div>
             </div>
             <div class="col-lg-4 col-sm-6">
               <div class="form-floating form-floating-outline mb-3">
-                <input type="text" class="form-control" id="besar_sewa_per" name="besar_sewa_per"
-                  placeholder="Per Tahun Naik ..." value="{{ $item->besar_sewa_per }}" />
+                <input type="number" class="form-control" id="besar_sewa_per" name="besar_sewa_per" placeholder="%"
+                  value="{{ $item->besar_sewa_per }}" />
                 <label for="besar_sewa_per">Keterangan Besaran Sewa</label>
               </div>
             </div>
@@ -336,14 +322,15 @@ $configData = Helper::appClasses();
               <div class="input-group input-group-merge">
                 <span class="input-group-text">Rp.</span>
                 <div class="form-floating form-floating-outline">
-                  <input type="number" class="form-control" placeholder="Kontribusi Awal (Number)" id="kontribusi_awal"
-                    name="kontribusi_awal" value="{{ $item->kontribusi_awal }}" />
+                  <input type="text" class="form-control" placeholder="Kontribusi Awal (Number)" id="kontribusi_awal"
+                    name="kontribusi_awal" value="{{ number_format($item->kontribusi_awal, 0, ',', '.') }}"
+                    oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)" />
                   <label>Kontribusi Awal </label>
                 </div>
               </div>
             </div>
           </div>
-          <div class="row mt-1">
+          <div class=" row mt-1">
             <div class="col-lg-12 col-sm-6">
               <div class="form-floating form-floating-outline mb-3">
                 <input type="text" class="form-control form-control-sm" id="keterangan" name="keterangan"
@@ -364,7 +351,24 @@ $configData = Helper::appClasses();
 <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
 
 <script>
+  function allowOnlyNumbers(event) {
+    const keyCode = event.which || event.keyCode;
+    const key = String.fromCharCode(keyCode);
 
+    // Allow backspace, delete, tab, arrow keys, and numeric keys only
+    if (!/[\d]/.test(key) && keyCode !== 8 && keyCode !== 9 && keyCode !== 37 && keyCode !== 39) {
+      event.preventDefault();
+    }
+  }
 
+  function formatRupiah(input) {
+    // Remove non-numeric characters except for digits
+    let value = input.value.replace(/[^\d]/g, '');
+
+    // Format the value with thousands separators if there's a value
+    if (value) {
+      input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+  }
 </script>
 @endsection

@@ -51,6 +51,63 @@ $configData = Helper::appClasses();
     <div class="badge bg-label-primary rounded-pill h-50">Transaksi Baru</div>
   </div>
 
+  <div class="row my-4 mt-4">
+    <div class="col">
+      <div class="accordion" id="collapsibleSection1">
+        <div class="card accordion-item">
+          <h5 class="accordion-header fw-bold" id="headingNomor">
+            <button class="accordion-button sticky-element bg-label-secondary p-4" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapseHeadingNomor" aria-expanded="true"
+              aria-controls="collapseHeadingNomor">
+              Nomor Perjanjian</button>
+          </h5>
+          <div id="collapseHeadingNomor" class="accordion-collapse collapse show" aria-labelledby="headingNomor"
+            data-bs-parent="#collapsibleSection1">
+            <div class="accordion-body mt-3">
+              <p class="mb-3">Nomor Perjanjian dan Nomor Perjanjang Perjanjian</p>
+              <form id="nomorForm">
+                <div data-repeater-list="nomor-a">
+                  <div id="nomorContainer">
+                    <div class="row nomor-item mb-2">
+                      <div class="col-lg-5 col-xl-5 col-12 mb-0">
+                        <div class="form-floating form-floating-outline">
+                          <input type="text" class="form-control form-control-sm" name="nomor-a[0][nomor_perjanjian]"
+                            placeholder="Nomor Perjanjian" />
+                          <label for="nomor_perjanjian">Nomor Perjanjian</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-5 col-xl-5 col-12 mb-0">
+                        <div class="form-floating form-floating-outline">
+                          <input type="date" class="form-control form-control-sm" name="nomor-a[0][tanggal_perjanjian]"
+                            placeholder="Tanggal" />
+                          <label for="tanggal_perjanjian">Tanggal Perjanjian</label>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-xl-2 col-12 d-flex align-items-center mb-0">
+                        <button type="button" class="btn btn-sm mb-4 btn-outline-danger remove-item-nomor">
+                          <i class="mdi mdi-close me-1"></i>
+                          <span class="align-middle">Delete</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-0">
+                  <button type="button" class="btn btn-sm btn-primary" id="addItemNomor">
+                    <i class="mdi mdi-plus me-1"></i>
+                    <span class="align-middle">Add</span>
+                  </button>
+                </div>
+                {{-- <div class="mt-4">
+                  <button type="submit" class="btn btn-success">Submit</button>
+                </div> --}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="card mb-4">
     <input type="hidden" name="jenis_id" value="{{ $jenis->jenis_nama ?? '' }}">
     <div
@@ -66,28 +123,11 @@ $configData = Helper::appClasses();
         <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
-              <input type="text" class="form-control" id="nomor_perjanjian" name="nomor_perjanjian"
-                placeholder="Nomor Perjanjian Sewa" />
-              <label for="nomor_perjanjian">Nomor Perjanjian Sewa </label>
-            </div>
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <div class="form-floating form-floating-outline mb-3">
-              <input type="date" class="form-control" id="tanggal_perjanjian" name="tanggal_perjanjian"
-                placeholder="Tanggal Perjanjian Sewa" />
-              <label for="tanggal_perjanjian">Tanggal Perjanjian Sewa </label>
-            </div>
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nomor_kode_barang" name="nomor_kode_barang"
                 placeholder="Kode Barang" />
               <label for="nomor_kode_barang">Kode Barang </label>
             </div>
           </div>
-        </div>
-
-        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="nomor_register" name="nomor_register"
@@ -101,6 +141,9 @@ $configData = Helper::appClasses();
               <label for="sertipikat">Sertifikat </label>
             </div>
           </div>
+        </div>
+
+        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="jumlah_bidang_sewa_bagian" name="jumlah_bidang_sewa_bagian"
@@ -109,9 +152,6 @@ $configData = Helper::appClasses();
                   style="color: red">*</span></label>
             </div>
           </div>
-        </div>
-
-        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="luas_total_sertipikat" name="luas_total_sertipikat"
@@ -126,29 +166,15 @@ $configData = Helper::appClasses();
               <label for="luas_yang_disewa">Luas yang Disewa </label>
             </div>
           </div>
+        </div>
+
+        <div class="row mt-1">
           <div class="col-lg-4 col-sm-6">
             <div class="form-floating form-floating-outline mb-3">
               <input type="text" class="form-control" id="jumlah_bidang_sewa_keseluruhan"
                 name="jumlah_bidang_sewa_keseluruhan" placeholder="Jumlah Bidang Sewa Keseluruhan" />
               <label for="jumlah_bidang_sewa_keseluruhan">Jumlah Bidang Sewa Keseluruhan <span
                   style="color: red">*</span></label>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-1">
-          <div class="col-lg-12 col-sm-6">
-            <div class="form-floating form-floating-outline mb-3">
-              <input type="text" class="form-control form-control-sm" id="lokasi" name="lokasi" placeholder="Lokasi" />
-              <label for="lokasi">Lokasi </label>
-            </div>
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="col-lg-4 col-sm-6">
-            <div class="form-floating form-floating-outline mb-3">
-              <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten / Kota" />
-              <label for="kabupaten">Kabupaten / Kota </label>
             </div>
           </div>
           <div class="col-lg-4 col-sm-6">
@@ -166,8 +192,28 @@ $configData = Helper::appClasses();
                   style="color: red">*</span></label>
             </div>
           </div>
-          <div class="col-lg-4 col-sm-6">
-
+        </div>
+        <div class="row mt-1">
+          <div class="col-lg-2 col-sm-6">
+            <div class="form-floating form-floating-outline mb-3">
+              <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="Kabupaten / Kota" />
+              <label for="kabupaten">Kabupaten / Kota </label>
+            </div>
+          </div>
+          <div class="col-lg-10 col-sm-6">
+            <div class="form-floating form-floating-outline mb-3">
+              <input type="text" class="form-control form-control-sm" id="lokasi" name="lokasi" placeholder="Lokasi" />
+              <label for="lokasi">Lokasi </label>
+            </div>
+          </div>
+        </div>
+        <div class="mt-1 mb-5">
+          <div class="col-lg-12 col-sm-6">
+            <div class="form-floating form-floating-outline mb-3">
+              <input type="text" class="form-control form-control-sm" id="peruntukan" name="peruntukan"
+                placeholder="Peruntukan" />
+              <label for="peruntukan">Peruntukan </label>
+            </div>
           </div>
         </div>
         {{------------ IDENTITAS ----------------------------------------------------------------- IDENTITAS --}}
@@ -225,22 +271,11 @@ $configData = Helper::appClasses();
               <label for="alamat">Alamat Lengkap </label>
             </div>
           </div>
-
-          <div class="mt-1">
-            <div class="col-lg-12 col-sm-6">
-              <div class="form-floating form-floating-outline mb-3">
-                <input type="text" class="form-control form-control-sm" id="peruntukan" name="peruntukan"
-                  placeholder="Peruntukan" />
-                <label for="peruntukan">Peruntukan </label>
-              </div>
-            </div>
-          </div>
           {{------------ PEMBAYARAN ----------------------------------------------------------------- PEMBAYARAN --}}
           <h6 class="mt-5 text-primary">3. Jatuh Tempo dan Pembayaran</h6>
           <hr class="my-4 mx-n4">
           <div class="row">
             <div class="col-lg-8 col-sm-6">
-              {{-- <label class="form-check-label">Sudah Jatuh Tempo Pembangunan / Belum</label> --}}
               <div class="col mt-2">
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" id="jatuh_tempo_pembangunan_belum"
@@ -263,15 +298,17 @@ $configData = Helper::appClasses();
                 <label for="jatuh_tempo_pembayaran">Jatuh Tempo Pembayaran </label>
               </div>
             </div>
-
           </div>
-
           <div class="row mt-2">
             <div class="col-lg-4 col-sm-6">
               <div class="form-floating form-floating-outline mb-3">
-                <input type="text" class="form-control" id="sistem_pembayaran" name="sistem_pembayaran"
-                  placeholder="Sistem Pembayaran" />
-                <label for="sistem_pembayaran">Sistem Pembayaran </label>
+                <select id="sistem_id" name="sistem_id" class="select2 form-select form-select-lg"
+                  data-allow-clear="true">
+                  <option value="">Pilih Sistem Pembayaran</option> <!-- Default option without value -->
+                  @foreach ($sistem as $item)
+                  <option value="{{ $item->sistem_id }}">{{ $item->sistem_pembayaran ?? '' }}</option>
+                  @endforeach
+                </select>
               </div>
             </div>
             <div class="col-lg-4 col-sm-6">
@@ -295,25 +332,25 @@ $configData = Helper::appClasses();
               <div class="input-group input-group-merge">
                 <span class="input-group-text">Rp.</span>
                 <div class="form-floating form-floating-outline">
-                  <input type="number" class="form-control" placeholder="Besaran Sewa (Number)" id="besar_sewa"
-                    name="besar_sewa" />
+                  <input type="text" class="form-control" placeholder="Besaran Sewa (Number)" id="besar_sewa"
+                    name="besar_sewa" oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)" />
                   <label>Besaran Sewa </label>
                 </div>
               </div>
             </div>
             <div class="col-lg-4 col-sm-6">
               <div class="form-floating form-floating-outline mb-3">
-                <input type="text" class="form-control" id="besar_sewa_per" name="besar_sewa_per"
-                  placeholder="Per Tahun Naik ..." />
-                <label for="besar_sewa_per">Keterangan Besaran Sewa</label>
+                <input type="number" class="form-control" id="besar_sewa_per" name="besar_sewa_per"
+                  placeholder="Berapa Persen % ..." />
+                <label for="besar_sewa_per">%</label>
               </div>
             </div>
             <div class="col-lg-4 col-sm-6">
               <div class="input-group input-group-merge">
                 <span class="input-group-text">Rp.</span>
                 <div class="form-floating form-floating-outline">
-                  <input type="number" class="form-control" placeholder="Kontribusi Awal (Number)" id="kontribusi_awal"
-                    name="kontribusi_awal" />
+                  <input type="text" class="form-control" placeholder="Kontribusi Awal (Number)" id="kontribusi_awal"
+                    name="kontribusi_awal" oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)" />
                   <label>Kontribusi Awal </label>
                 </div>
               </div>
@@ -331,7 +368,6 @@ $configData = Helper::appClasses();
         </div>
       </div>
     </div>
-
 
     <!-- Collapsible Section -->
     <div class="row my-4 mt-4">
@@ -368,17 +404,18 @@ $configData = Helper::appClasses();
                           <div class="input-group input-group-merge">
                             <span class="input-group-text">Rp.</span>
                             <div class="form-floating form-floating-outline">
-                              <input type="number" class="form-control" placeholder="Nominal Pembayaran"
-                                name="group-a[0][nominal]" />
+                              <input type="text" class="form-control" placeholder="Nominal Pembayaran"
+                                name="group-a[0][nominal]" oninput="formatRupiah(this)"
+                                onkeydown="allowOnlyNumbers(event)" />
                               <label>Nominal <span style=" color: red">*</span></label>
                             </div>
                           </div>
                         </div>
                         <div class="col-lg-4 col-xl-3 col-12 mb-0">
                           <div class="form-floating form-floating-outline">
-                            <input type="text" class="form-control form-control-sm" name="group-a[0][keterangan]"
-                              placeholder="Keterangan" />
-                            <label for="keterangan">Keterangan</label>
+                            <input type="text" class="form-control form-control-sm" name="group-a[0][ket]"
+                              placeholder="ket" />
+                            <label for="ket">Keterangan</label>
                           </div>
                         </div>
                         <div class="col-lg-3 col-xl-2 col-12 mb-0">
@@ -440,8 +477,9 @@ $configData = Helper::appClasses();
                           <div class="input-group input-group-merge">
                             <span class="input-group-text">Rp.</span>
                             <div class="form-floating form-floating-outline">
-                              <input type="number" class="form-control" placeholder="Nominal Kenaikan"
-                                name="kenaikan-a[0][besaran]" />
+                              <input type="text" class="form-control" placeholder="Nominal Kenaikan"
+                                name="kenaikan-a[0][besaran]" oninput="formatRupiah(this)"
+                                onkeydown="allowOnlyNumbers(event)" />
                               <label>Nominal Kenaikan <span style=" color: red">*</span></label>
                             </div>
                           </div>
@@ -618,6 +656,25 @@ $configData = Helper::appClasses();
 <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/dropzone.min.js"></script>
 
 <script>
+  function allowOnlyNumbers(event) {
+    const keyCode = event.which || event.keyCode;
+    const key = String.fromCharCode(keyCode);
+
+    // Allow backspace, delete, tab, arrow keys, and numeric keys only
+    if (!/[\d]/.test(key) && keyCode !== 8 && keyCode !== 9 && keyCode !== 37 && keyCode !== 39) {
+      event.preventDefault();
+    }
+  }
+
+  function formatRupiah(input) {
+    // Remove non-numeric characters except for digits
+    let value = input.value.replace(/[^\d]/g, '');
+
+    // Format the value with thousands separators if there's a value
+    if (value) {
+      input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+  }
   Dropzone.autoDiscover = false;
   let dropzone;
   document.addEventListener("DOMContentLoaded", function () {
@@ -719,7 +776,43 @@ $configData = Helper::appClasses();
   $(document).ready(function () {
     let itemCount = 1; // Initial item count for dynamic names
     let itemCountKenaikan = 1;
+    let itemNomor = 1;
 
+    // Add new repeater item
+    $('#addItemNomor').click(function () {
+      const newItemNomor = `
+        <div class="row nomor-item mb-2">
+            <div class="col-lg-5 col-xl-5 col-12 mb-0">
+              <div class="form-floating form-floating-outline">
+                <input type="text" class="form-control form-control-sm" name="nomor-a[${itemNomor}][nomor_perjanjian]"
+                  placeholder="Nomor Perpanjang Perjanjian" />
+                <label for="nomor_perjanjian">Nomor Perpanjang Perjanjian</label>
+              </div>
+            </div>
+            <div class="col-lg-5 col-xl-5 col-12 mb-0">
+              <div class="form-floating form-floating-outline">
+                <input type="date" class="form-control form-control-sm" name="nomor-a[${itemNomor}][tanggal_perjanjian]"
+                  placeholder="Tanggal" />
+                <label for="tanggal_perjanjian">Tanggal Perpanjang Perjanjian</label>
+              </div>
+            </div>
+            <div class="col-lg-12 col-xl-2 col-12 d-flex align-items-center mb-0">
+              <button type="button" class="btn btn-sm mb-4 btn-outline-danger remove-item-nomor">
+                <i class="mdi mdi-close me-1"></i>
+                <span class="align-middle">Delete</span>
+              </button>
+            </div>
+          </div>`;
+
+      $('#nomorContainer').append(newItemNomor);
+      itemNomor++; // Increment for next item
+    });
+
+    // Remove repeater item
+    $(document).on('click', '.remove-item-nomor', function () {
+      $(this).closest('.nomor-item').next('hr').remove(); // Remove the associated <hr>
+      $(this).closest('.nomor-item').remove();
+    });
 
     // Add new repeater item
     $('#addItemKenaikan').click(function () {
@@ -735,7 +828,9 @@ $configData = Helper::appClasses();
                 <div class="input-group input-group-merge">
                     <span class="input-group-text">Rp.</span>
                     <div class="form-floating form-floating-outline">
-                        <input type="number" class="form-control" placeholder="Nominal Kenaikan" name="kenaikan-a[${itemCountKenaikan}][besaran]" />
+                        <input type="text" class="form-control" placeholder="Nominal Kenaikan" name="kenaikan-a[${itemCountKenaikan}][besaran]"
+                          oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)"
+                        />
                         <label>Nominal Kenaikan </label>
                     </div>
                 </div>
@@ -746,8 +841,7 @@ $configData = Helper::appClasses();
                     <span class="align-middle">Delete</span>
                 </button>
             </div>
-        </div>
-        <hr>`;
+        </div>`;
 
       $('#repeaterContainerKenaikan').append(newItemKenaikan);
       itemCountKenaikan++; // Increment for next item
@@ -775,19 +869,19 @@ $configData = Helper::appClasses();
                 <div class="input-group input-group-merge">
                   <span class="input-group-text">Rp.</span>
                   <div class="form-floating form-floating-outline">
-                    <input type="number" class="form-control" placeholder="Besaran Sewa (Number)"
-                       name="group-a[${itemCount}][nominal]" />
+                    <input type="text" class="form-control" placeholder="Besaran Sewa (Number)"
+                       name="group-a[${itemCount}][nominal]" oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)" />
                     <label>Nominal </label>
                   </div>
                 </div>
               </div>
                <div class="col-lg-4 col-xl-3 col-12 mb-0">
-                          <div class="form-floating form-floating-outline">
-                            <input type="text" class="form-control form-control-sm" name="group-a[0][${itemCount}][keterangan]"
-                              placeholder="Keterangan" />
-                            <label for="keterangan">Keterangan</label>
-                          </div>
-                        </div>
+                  <div class="form-floating form-floating-outline">
+                    <input type="text" class="form-control form-control-sm" name="group-a[${itemCount}][ket]"
+                      placeholder="ket" />
+                    <label for="ket">Keterangan</label>
+                  </div>
+                </div>
 
             <div class="mb-2 col-lg-3 col-xl-2 col-12 mb-0">
               <div class="form-floating form-floating-outline">

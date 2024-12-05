@@ -31,6 +31,15 @@
       ]
     },
     {
+      "route": "sistem-bayar.index",
+      "name": "Master Sistem Bayar",
+      "icon": "menu-icon tf-icons ri-database-2-line",
+      "slug": "sistem-bayar.index",
+      "roles": [
+        "Admin"
+      ]
+    },
+    {
       "menuHeader": "Pelaporan"
     },
     {

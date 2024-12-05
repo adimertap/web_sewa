@@ -8,7 +8,7 @@ $configData = Helper::appClasses();
 @extends('layouts/layoutMaster')
 
 
-@section('title', 'Tambah')
+@section('title', 'Detail')
 @section('vendor-style')
 {{--
 <link rel="stylesheet" href="{{asset('assets/vendor/libs/swiper/swiper.scss')}}" /> --}}
@@ -127,23 +127,84 @@ $configData = Helper::appClasses();
                   <span class="h4 mb-0 app-brand-text fw-bold">Jenis: {{ $item->Jenis->jenis_nama }}</span>
                 </div>
                 <p class="mb-1">Kabupaten/Kota: <b>{{ $item->kabupaten }}</b></p>
-                <p class="mb-1">Nomor Perjanjian: <i> {{ $item->nomor_perjanjian }}</i></p>
+                <p class="mb-1">Peruntukan: <i> {{ $item->peruntukan }}</i></p>
               </div>
               <div>
-                <h4 class="fw-medium">Data Penyewaan</h4>
-                <div class="mb-1">
+                {{-- <h4 class="fw-medium">Data Penyewaan</h4> --}}
+                <div class="mb-1 mt-5">
                   <span>Tanggal:</span>
-                  <i>{{ $item->tanggal_perjanjian }}</i>
+                  <i>{{ isset($item->Nomor[0]) ? $item->Nomor[0]->tanggal_perjanjian : '-' }}</i>
                 </div>
                 <div class="mb-1">
-                  <span>Jangka Waktu Kerjasama:</span>
-                  <b>{{ $item->jangka_waktu_kerjasama }}</b>
+                  <span>Sistem Pembayaran:</span>
+                  <b>{{ $item->SistemBayar->sistem_pembayaran }}</b>
                 </div>
               </div>
             </div>
+            <hr>
+            <div class="row mt-4">
+              <div class="col-12 col-md-12 border p-3">
+                <!-- Detail Pembayaran -->
+                <div class="d-flex">
+                  <h6 class="p-1">1. Nomor Perjanjian:</h6>
+                  <button class="btn btn-sm btn-outline-primary btn-primary h-50 ms-2" onclick="modalTambahNomor()">
+                    <span class="text-nowrap">Tambah Nomor</span>
+                  </button>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-bordered small m-0" id="tableNomor">
+                    <thead class="border-top">
+                      <tr>
+                        <th class="text-center">No.</th>
+                        <th class="text-center">Nomor Perjanjian</th>
+                        <th class="text-center">Tanggal Perjanjian</th>
+                        <th class="text-center">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($item->Nomor as $nomor)
+                      <tr role="row" class="odd">
+                        <td class="text-center">{{ $loop->iteration }}.</td>
+                        <td class="text-center" data-label="nomor_perjanjian">{{ $nomor->nomor_perjanjian }}</td>
+                        <td class="text-center" data-label="tanggal_perjanjian">{{ $nomor->tanggal_perjanjian }}</td>
+                        <td class="text-center">
+                          <div class="d-inline-block"><a href="javascript:;"
+                              class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow"
+                              data-bs-toggle="dropdown" aria-expanded="false"><i class="mdi mdi-dots-vertical"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end m-0" style="">
+                              <li>
+                                <button class="dropdown-item edit-row-btn-nomor"
+                                  data-id="{{ $nomor->transaksi_nomor_id }}" data-nomor="{{ $nomor->nomor_perjanjian }}"
+                                  data-tanggal="{{ $nomor->tanggal_perjanjian }}">
+                                  Edit
+                                </button>
+
+                              </li>
+                              <div class="dropdown-divider"></div>
+                              <li>
+                                <a href="javascript:;" class="dropdown-item text-danger delete-record"
+                                  onclick="deleteNomor({{ $nomor->transaksi_nomor_id }})">Hapus</a>
+                                <form id="delete-nomor-{{ $nomor->transaksi_nomor_id }}"
+                                  action="{{ route('sewa.nomor.delete', $nomor->transaksi_nomor_id) }}" method="POST"
+                                  style="display: none;">
+                                  @method('DELETE')
+                                  @csrf
+                                </form>
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
             <div class="row mt-4">
               <div class="col-12 col-md-6 border p-3">
-                <h6 class="pb-2">1. Informasi Penyewa:</h6>
+                <h6 class="pb-2">2. Informasi Penyewa:</h6>
                 <div class="row mb-1">
                   <div class="col-3">
                     <p class="mb-1 fw-medium">NIK</p>
@@ -200,25 +261,17 @@ $configData = Helper::appClasses();
                     <p class="mb-1">: {{ $item->alamat }}</p>
                   </div>
                 </div>
-                <div class="row mb-1">
-                  <div class="col-3">
-                    <p class="mb-1 fw-medium">Peruntukan</p>
-                  </div>
-                  <div class="col-9">
-                    <p class="mb-1 fw-medium">: {{ $item->peruntukan }}</p>
-                  </div>
-                </div>
               </div>
 
               <!-- Pembayaran dan Jatuh Tempo -->
               <div class="col-12 col-md-6 border p-3">
-                <h6 class="pb-2">2. Pembayaran dan Jatuh Tempo:</h6>
+                <h6 class="pb-2">3. Pembayaran dan Jatuh Tempo:</h6>
                 <div class="row mb-1">
                   <div class="col-5">
                     <p class="mb-1 fw-medium">Sistem Pembayaran</p>
                   </div>
                   <div class="col-7">
-                    <p class="mb-1">: {{ $item->sistem_pembayaran ?? '' }} {{ $item->sistem_pembayaran_ket ?? '' }}</p>
+                    <p class="mb-1">: {{ $item->SistemBayar->sistem_pembayaran ?? '' }} </p>
                   </div>
                 </div>
                 <div class="row mb-1">
@@ -267,7 +320,7 @@ $configData = Helper::appClasses();
                     <p class="mb-1 fw-medium  text-primary">Ket. Besaran Sewa</p>
                   </div>
                   <div class="col-7">
-                    <p class="mb-1  text-primary">: {{ $item->besar_sewa_per ?? '-' }}</p>
+                    <p class="mb-1  text-primary">: {{ $item->besar_sewa_per ?? '-' }} %</p>
                   </div>
                 </div>
                 <div class="row mb-1">
@@ -282,8 +335,15 @@ $configData = Helper::appClasses();
             </div>
             <div class="row mt-4">
               <div class="col-12 col-md-6 border p-3">
-                <h6 class="pb-2">3. Detail Penyewaan:</h6>
-
+                <h6 class="pb-2">4. Detail Penyewaan:</h6>
+                <div class="row mb-1">
+                  <div class="col-4">
+                    <p class="mb-1 fw-medium">Peruntukan</p>
+                  </div>
+                  <div class="col-8">
+                    <p class="mb-1 fw-medium">: {{ $item->peruntukan }}</p>
+                  </div>
+                </div>
                 <div class="row mb-1">
                   <div class="col-4">
                     <p class="mb-1 fw-medium">Kode Barang</p>
@@ -593,6 +653,48 @@ $configData = Helper::appClasses();
     </div>
   </div>
 </div>
+<div class="modal fade" id="modalNomor" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="mb-2">Nomor Perjanjian</h4>
+        <i>Tambah Nomor Perjanjian</i>
+      </div>
+      <div class="modal-body">
+        <hr>
+        <form action="{{ route('sewa.nomor.tambah', $item->transaksi_id)}}" id="nomorForm" method="POST"
+          enctype="multipart/form-data">
+          @csrf
+          <div class="row mt-2">
+            <div class="col-lg-12 col-sm-6">
+              <div class="form-floating form-floating-outline mb-3">
+                <input type="text" class="form-control" id="nomor_perjanjian" name="nomor_perjanjian"
+                  placeholder="Input Nomor Perjanjian" />
+                <label for="nomor_perjanjian">Nomor Perjanjian</label>
+              </div>
+            </div>
+            <div class="col-lg-12 col-sm-6">
+              <div class="form-floating form-floating-outline mb-3 mt-2">
+                <input type="date" class="form-control" id="tanggal_perjanjian" name="tanggal_perjanjian"
+                  placeholder="Input Tanggal Perjanjian" />
+                <label for="tanggal_perjanjian">Tanggal Perjanjian</label>
+              </div>
+            </div>
+            <div class="col-12 d-flex flex-wrap justify-content-center gap-4 row-gap-4 mt-4">
+              <button type="reset" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal"
+                aria-label="Close">
+                Back
+              </button>
+              <button type="submit" class="btn btn-primary waves-effect waves-light">
+                Tambah
+              </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
 <div class="modal fade" id="editModalKenaikan" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -612,7 +714,8 @@ $configData = Helper::appClasses();
             </div>
             <div class="col-lg-6 col-sm-6">
               <label for="besaran" class="form-label">Nominal</label>
-              <input type="number" class="form-control" id="besaran" name="besaran">
+              <input type="text" oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)" class="form-control"
+                id="besaran" name="besaran">
             </div>
           </div>
         </div>
@@ -624,6 +727,7 @@ $configData = Helper::appClasses();
     </div>
   </div>
 </div>
+
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
   <div class="modal-dialog  modal-dialog-centered">
     <div class="modal-content">
@@ -651,7 +755,8 @@ $configData = Helper::appClasses();
           </div>
           <div class="mb-2">
             <label for="nominal" class="form-label">Nominal</label>
-            <input type="number" class="form-control" id="nominal" name="nominal">
+            <input type="text" oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)" class="form-control"
+              id="nominal" name="nominal">
           </div>
         </div>
         <div class="modal-footer">
@@ -729,7 +834,8 @@ $configData = Helper::appClasses();
               <div class="input-group input-group-merge">
                 <span class="input-group-text">Rp.</span>
                 <div class="form-floating form-floating-outline">
-                  <input type="number" class="form-control" placeholder="Input Nominal" id="nominal" name="nominal" />
+                  <input type="text" oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)"
+                    class="form-control" placeholder="Input Nominal" id="nominal" name="nominal" />
                   <label>Nominal <span style="color: red">*</span></label>
                 </div>
               </div>
@@ -783,7 +889,8 @@ $configData = Helper::appClasses();
                 <div class="input-group input-group-merge">
                   <span class="input-group-text">Rp.</span>
                   <div class="form-floating form-floating-outline">
-                    <input type="number" class="form-control" placeholder="Input Nominal" id="besaran" name="besaran" />
+                    <input type="text" oninput="formatRupiah(this)" onkeydown="allowOnlyNumbers(event)"
+                      class="form-control" placeholder="Input Nominal" id="besaran" name="besaran" />
                     <label>Nominal <span style="color: red">*</span></label>
                   </div>
                 </div>
@@ -803,6 +910,40 @@ $configData = Helper::appClasses();
     </div>
   </div>
 </div>
+</div>
+<div class="modal fade" id="editNomor" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form id="editFormNomor" method="POST" action="{{ route('sewa.nomor.update') }}">
+        @csrf
+        <input type="hidden" name="transaksi_nomor_id" id="transaksi_nomor_id">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Nomor Perjanjian</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row mb-2">
+            <div class="col-lg-12 col-sm-12">
+              <label for="nomor_perjanjian" class="form-label">Nomor Perjanjian</label>
+              <input type="text" class="form-control" id="nomor_perjanjian_m" name="nomor_perjanjian_m">
+            </div>
+            <div class="col-lg-12 col-sm-12">
+              <label for="tanggal_perjanjian" class="form-label">Tanggal</label>
+              <input type="date" class="form-control" id="tanggal_perjanjian_m" name="tanggal_perjanjian_m">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Update Data</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
 
 <style>
   .text-centers {
@@ -914,6 +1055,25 @@ $configData = Helper::appClasses();
 <script src="https://cdn.jsdelivr.net/npm/dropzone@5.9.3/dist/dropzone.min.js"></script>
 
 <script>
+  function allowOnlyNumbers(event) {
+    const keyCode = event.which || event.keyCode;
+    const key = String.fromCharCode(keyCode);
+
+    // Allow backspace, delete, tab, arrow keys, and numeric keys only
+    if (!/[\d]/.test(key) && keyCode !== 8 && keyCode !== 9 && keyCode !== 37 && keyCode !== 39) {
+      event.preventDefault();
+    }
+  }
+
+  function formatRupiah(input) {
+    // Remove non-numeric characters except for digits
+    let value = input.value.replace(/[^\d]/g, '');
+
+    // Format the value with thousands separators if there's a value
+    if (value) {
+      input.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+  }
   document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.edit-row-btn').forEach(button => {
       button.addEventListener('click', function () {
@@ -925,6 +1085,17 @@ $configData = Helper::appClasses();
         document.getElementById('keterangan').value = this.dataset.keterangan;
         document.getElementById('nominal').value = this.dataset.nominal;
 
+        modal.show();
+      });
+    });
+
+    document.querySelectorAll('.edit-row-btn-nomor').forEach(button => {
+      button.addEventListener('click', function () {
+        const modal = new bootstrap.Modal(document.getElementById('editNomor'));
+
+        document.getElementById('transaksi_nomor_id').value = this.dataset.id;
+        document.getElementById('nomor_perjanjian_m').value = this.dataset.nomor;
+        document.getElementById('tanggal_perjanjian_m').value = this.dataset.tanggal;
         modal.show();
       });
     });
@@ -942,7 +1113,25 @@ $configData = Helper::appClasses();
     });
   });
 
-  function deleteFiles(fileId){
+  function deleteNomor(nomorId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Prevent default behavior and submit the delete form
+        event.preventDefault();
+        document.getElementById(`delete-nomor-${nomorId}`).submit();
+      }
+    });
+  }
+
+  function deleteFiles(fileId) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -959,6 +1148,7 @@ $configData = Helper::appClasses();
       }
     });
   }
+
   function deletePembayaran(itemId) {
     Swal.fire({
       title: 'Are you sure?',
@@ -1012,6 +1202,7 @@ $configData = Helper::appClasses();
       }
     });
   }
+
   function selesaiSewa(itemId) {
     Swal.fire({
       title: 'Selesai Sewa',
@@ -1034,11 +1225,17 @@ $configData = Helper::appClasses();
   function modalTambahPembayaran() {
     $('#modalTambahBayar').modal('show')
   }
+
   function modalTambahKenaikan() {
     $('#modalTambahKenaikan').modal('show')
   }
+
   function modalTambahFile() {
     $('#modalFile').modal('show')
+  }
+
+  function modalTambahNomor() {
+    $('#modalNomor').modal('show')
   }
 
   Dropzone.autoDiscover = false;
@@ -1138,8 +1335,6 @@ $configData = Helper::appClasses();
       },
     });
   });
-
-
 
 </script>
 @endsection

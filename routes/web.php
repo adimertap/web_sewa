@@ -43,6 +43,7 @@ use App\Http\Controllers\form_wizard\Icons as FormWizardIcons;
 use App\Http\Controllers\LaporanSewaController;
 use App\Http\Controllers\modal\ModalExample;
 use App\Http\Controllers\SewaController;
+use App\Http\Controllers\SistemBayarController;
 use App\Http\Controllers\tables\Basic as TablesBasic;
 use App\Http\Controllers\tables\DatatableBasic;
 use App\Http\Controllers\tables\DatatableAdvanced;
@@ -135,6 +136,11 @@ Route::middleware('auth')->group(function () {
   Route::post('/sewa/update/kenaikan', [SewaController::class, 'UpdateKenaikan'])->name('sewa.kenaikan.update');
   Route::delete('/sewa/delete/kenaikan/{id}', [SewaController::class, 'DeleteKenaikan'])->name('sewa.kenaikan.delete');
 
+  Route::post('/sewa/nomor/{id}', [SewaController::class, 'TambahNomor'])->name('sewa.nomor.tambah');
+  Route::post('/sewa/update/nomor', [SewaController::class, 'UpdateNomor'])->name('sewa.nomor.update');
+  Route::delete('/sewa/delete/nomor/{id}', [SewaController::class, 'DeleteNomor'])->name('sewa.nomor.delete');
+
+
   Route::resource('laporan-sewa', LaporanSewaController::class)->parameters(['lp' => 'id',]);
   Route::post('/laporan-sewa/excel', [LaporanSewaController::class, 'Excel'])->name('laporan-sewa.excel');
 
@@ -144,6 +150,8 @@ Route::middleware('auth')->group(function () {
   Route::prefix('Master')->group(function () {
     Route::resource('user', UserController::class)->parameters(['user' => 'id',]);
     Route::resource('jenis-sewa', JenisSewaController::class)->parameters(['sewa' => 'id',]);
+    Route::resource('sistem-bayar', SistemBayarController::class)->parameters(['sistem' => 'id',]);
+
 
     Route::post('/user/password', [UserController::class, 'change_password'])->name('user-change-password');
 

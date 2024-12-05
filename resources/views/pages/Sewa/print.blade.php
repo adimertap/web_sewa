@@ -52,18 +52,10 @@
     </div>
     <div class="row mb-1">
       <div class="col-4">
-        <p class="mb-1 fw-medium">No. Perjanjian</p>
-      </div>
-      <div class="col-8">
-        <p class="mb-1">: {{ $item->nomor_perjanjian ?? '-' }}</p>
-      </div>
-    </div>
-    <div class="row mb-1">
-      <div class="col-4">
         <p class="mb-1 fw-medium">Tanggal</p>
       </div>
       <div class="col-8">
-        <p class="mb-1">: {{ $item->tanggal_perjanjian ?? '-' }}</p>
+        <p class="mb-1">: {{ isset($item->Nomor[0]) ? $item->Nomor[0]->tanggal_perjanjian : '-' }}</p>
       </div>
     </div>
     <div class="row mb-1">
@@ -149,7 +141,7 @@
         <p class="mb-1 fw-medium">Sistem Pembayaran</p>
       </div>
       <div class="col-8">
-        <p class="mb-1">: {{ $item->sistem_pembayaran ?? '-' }}</p>
+        <p class="mb-1">: {{ $item->SistemBayar->sistem_pembayaran ?? '-' }}</p>
       </div>
     </div>
     <div class="row mb-1">
@@ -303,7 +295,29 @@
   </div>
   <hr>
   <!-- Detail Pembayaran -->
-  <h6 class="p-2">Detail Pembayaran:</h6>
+  <h6 class="p-2 mt-2">Nomor Perjanjian:</h6>
+  <div class="table-responsive">
+    <table class="table table-bordered small m-0">
+      <thead class="border-top">
+        <tr>
+          <th class="text-center">No.</th>
+          <th class="text-center">Nomor</th>
+          <th class="text-center">Tanggal</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach ($item->Nomor as $nomor)
+        <tr role="row" class="odd">
+          <td class="text-center">{{ $loop->iteration }}.</td>
+          <td class="text-center" data-label="Tahun">{{ $nomor->nomor_perjanjian }}</td>
+          <td class="text-center" data-label="Tanggal">{{ $nomor->tanggal_perjanjian }}</td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </div>
+  <!-- Detail Pembayaran -->
+  <h6 class="p-2 mt-3">Detail Pembayaran:</h6>
   <div class="table-responsive">
     <table class="table table-bordered small m-0">
       <thead class="border-top">
@@ -368,7 +382,7 @@
         @endforeach
         <tr>
           <td colspan="2" class="text-center">Total</td>
-          <td class="text-center fw-bold text-primary">Rp {{ number_format($totalNominal, 0, ',', '.') }}</td>
+          <td class="text-center">Rp {{ number_format($totalNominal, 0, ',', '.') }}</td>
         </tr>
       </tbody>
     </table>
